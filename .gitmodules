@@ -1,0 +1,16 @@
+[submodule "archlinux/polybar"]
+	path = archlinux/polybar
+	url = https://aur.archlinux.org/polybar
+	branch = master
+[submodule "archlinux/ttf-d2coding"]
+	path = archlinux/ttf-d2coding
+	url = https://aur.archlinux.org/ttf-d2coding
+	branch = master
+[submodule "archlinux/ttf-neodgm"]
+	path = archlinux/ttf-neodgm
+	url = https://aur.archlinux.org/ttf-neodgm
+	branch = master
+[submodule "archlinux/nerd-fonts-complete"]
+	path = archlinux/nerd-fonts-complete
+	url = https://aur.archlinux.org/nerd-fonts-complete
+	branch = master
