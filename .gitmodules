@@ -17,3 +17,6 @@
 [submodule "android/hello-world"]
 	path = android/hello-world
 	url = https://github.com/RangHo/android-hello-world
+[submodule "android/vanced-microg"]
+	path = android/vanced-microg
+	url = https://github.com/TeamVanced/VancedMicroG
