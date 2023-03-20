@@ -14,3 +14,6 @@
 	path = archlinux/nerd-fonts-complete
 	url = https://aur.archlinux.org/nerd-fonts-complete
 	branch = master
+[submodule "android/hello-world"]
+	path = android/hello-world
+	url = https://github.com/RangHo/android-hello-world
