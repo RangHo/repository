@@ -1,0 +1,76 @@
+name: Build Void Linux packages
+
+on:
+  push:
+    branches:
+      - source
+    paths:
+      - void
+
+jobs:
+  init:
+    name: Initialize Void Linux package builds
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.find-packages.outputs.matrix }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Find all Void Linux packages
+        id: find-packages
+        run: |
+          find void/srcpkgs -mindepth 1 -maxdepth 1 -type d \
+            | sed 's|^void/srcpkgs/||' \
+            | jq -R \
+            | jq -cs '{ "path": . }' \
+            > matrix.json
+          echo "matrix=$(cat matrix.json)" >> $GITHUB_OUTPUT
+
+  build:
+    name: Build all packages
+    runs-on: ubuntu-latest
+    needs:
+      - init
+    strategy:
+      matrix: ${{ fromJson(needs.init.outputs.matrix) }}
+
+    steps:
+      - name: Install latest version of xbps
+        run: |
+          curl -L https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz -o xbps.tar.xz
+          tar -xJvf xbps.tar.xz
+          rm xbps.tar.xz
+          echo "$(pwd)/usr/bin" >> $GITHUB_PATH
+
+      - name: Checkout void-packages repository
+        uses: actions/checkout@v4
+        with:
+          path: void-packages
+          repository: void-linux/void-packages
+
+      - name: Checkout my repository
+        uses: actions/checkout@v4
+        with:
+          path: rangho-packages
+
+      - name: Copy custom package data to void-repository
+        run: |
+          cat rangho-packages/void/common/shlibs >> void-packages/common/shlibs
+          cp -r rangho-packages/void/srcpkgs/* void-packages/srcpkgs/
+
+      - name: Build package
+        run: |
+          cd void-packages
+          ./xbps-src zap
+          ./xbps-src binary-bootstrap
+          ./xbps-src pkg "${{ matrix.path }}"
+
+      - name: Upload package as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: void-${{ matrix.path }}
+          path: void-packages/hostdir/binpkgs/${{ matrix.path }}*.xbps
