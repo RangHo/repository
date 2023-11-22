@@ -1,17 +1,17 @@
-[submodule "archlinux/polybar"]
-	path = archlinux/polybar
+[submodule "arch/polybar"]
+	path = arch/polybar
 	url = https://aur.archlinux.org/polybar
 	branch = master
-[submodule "archlinux/ttf-d2coding"]
-	path = archlinux/ttf-d2coding
+[submodule "arch/ttf-d2coding"]
+	path = arch/ttf-d2coding
 	url = https://aur.archlinux.org/ttf-d2coding
 	branch = master
-[submodule "archlinux/ttf-neodgm"]
-	path = archlinux/ttf-neodgm
+[submodule "arch/ttf-neodgm"]
+	path = arch/ttf-neodgm
 	url = https://aur.archlinux.org/ttf-neodgm
 	branch = master
-[submodule "archlinux/nerd-fonts-complete"]
-	path = archlinux/nerd-fonts-complete
+[submodule "arch/nerd-fonts-complete"]
+	path = arch/nerd-fonts-complete
 	url = https://aur.archlinux.org/nerd-fonts-complete
 	branch = master
 [submodule "android/hello-world"]
