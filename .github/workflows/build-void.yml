@@ -6,6 +6,7 @@ on:
       - source
     paths:
       - void
+  workflow_dispatch:
 
 jobs:
   init:
