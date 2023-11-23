@@ -1,7 +1,7 @@
 # Template file for 'hyprpaper'
 pkgname=hyprpaper
 version=0.3.0
-revision=2
+revision=3
 hostmakedepends="pkg-config cmake wayland-devel"
 makedepends="
 	pango-devel
