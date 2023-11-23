@@ -48,6 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - init
+    if: ${{ fromJson(needs.init.outputs.matrix).changed != [""] }}
     strategy:
       matrix: ${{ fromJson(needs.init.outputs.matrix) }}
 
