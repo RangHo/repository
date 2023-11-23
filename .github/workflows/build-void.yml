@@ -24,7 +24,7 @@ jobs:
       - name: Find all Void Linux packages
         id: find-packages
         run: |
-          find void/srcpkgs -mindepth 1 -maxdepth 1 -type d \
+          find void/srcpkgs -mindepth 1 -maxdepth 1 \
             | sed 's|^void/srcpkgs/||' \
             | jq -R \
             | jq -cs '{ "package": . }' \
@@ -64,17 +64,23 @@ jobs:
           cp -r rangho-packages/void/srcpkgs/* void-packages/srcpkgs/
 
       - name: Build package
+        id: build-package
         run: |
           cd void-packages
           ./xbps-src zap
           ./xbps-src binary-bootstrap
           ./xbps-src pkg "${{ matrix.package }}"
+          printf "pkgfile=%s-%s.%s.xbps\n" \
+            "${{ matrix.package }}" \
+            "$(./xbps-src show "${{ matrix.package }}" | grep 'version' | tr -d ' ' | cut -d ':' -f 2)" \
+            "$(uname -m)" \
+            >> $GITHUB_OUTPUT
 
       - name: Upload package as artifact
         uses: actions/upload-artifact@v3
         with:
           name: void-${{ matrix.package }}
-          path: void-packages/hostdir/binpkgs/*.xbps
+          path: void-packages/hostdir/binpkgs/${{ steps.build-package.outputs.pkgfile }}
 
   deploy:
     name: Deploy all packages
