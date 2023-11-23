@@ -112,6 +112,9 @@ jobs:
           for pkg in *.xbps; do
             xbps-rindex -a $pkg
           done
+        env:
+          XBPS_ARCH: x86_64
+          XBPS_TARGET_ARCH: x86_64
 
       - name: Upload the repository as artifact
         uses: actions/upload-artifact@v3
