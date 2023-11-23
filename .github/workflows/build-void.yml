@@ -24,22 +24,10 @@ jobs:
       - name: Find all Void Linux packages where changes are available
         id: find-packages
         run: |
-          CHANGED_PKGS="$( \
-            find void/srcpkgs -mindepth 1 -maxdepth 1 -type d \
-            | while read -r pkg; do \
-                git diff --exit-code --quiet \
-                  ${{ github.ref }} \
-                  ${{ github.event.before }} \
-                  -- $pkg \
-                || echo $pkg \
-            ; done \
-            | sed 's|^void/srcpkgs/||'
-          )"
-          echo "::notice title=Changed packages::$CHANGED_PKGS"
-
-          echo "$CHANGED_PKGS" \
+          find void/srcpkgs -mindepth 1 -maxdepth 1 -type d \
+            | sed 's|^void/srcpkgs/||' \
             | jq -R \
-            | jq -cs '{ "changed": . }' \
+            | jq -cs '{ "package": . }' \
             > matrix.json
           echo "matrix=$(cat matrix.json)" >> $GITHUB_OUTPUT
 
@@ -81,19 +69,23 @@ jobs:
           cd void-packages
           ./xbps-src zap
           ./xbps-src binary-bootstrap
-          ./xbps-src pkg "${{ matrix.changed }}"
+          ./xbps-src pkg "${{ matrix.package }}"
 
       - name: Upload package as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: void-${{ matrix.changed }}
-          path: void-packages/hostdir/binpkgs/${{ matrix.changed }}*.xbps
+          name: void-${{ matrix.package }}
+          path: void-packages/hostdir/binpkgs/${{ matrix.package }}*.xbps
 
   deploy:
     name: Deploy all packages
     runs-on: ubuntu-latest
     needs:
       - build
+    env:
+      XBPS_ARCH: x86_64
+      XBPS_TARGET_ARCH: x86_64
+    
 
     steps:
       - name: Checkout deploy branch
@@ -119,29 +111,40 @@ jobs:
           cp ./artifacts/*/*.xbps ./void
 
       - name: Add all packages to the repository
-        env:
-          XBPS_ARCH: x86_64
-          XBPS_TARGET_ARCH: x86_64
         run: |
           cd void
           for pkg in *.xbps; do
-            xbps-rindex -a $pkg
+            xbps-rindex --add $pkg
           done
 
       - name: Sign all packages in the repository
-        env:
-          XBPS_ARCH: x86_64
-          XBPS_TARGET_ARCH: x86_64
         run: |
           echo "${{ secrets.RANGHO_REPOSITORY_SIGNING_KEY }}" > private.pem
           xbps-rindex \
             --privkey private.pem \
             --sign \
             --signedby "RangHo Lee <hello@rangho.me>" \
-            ./void
+            "$(pwd)/void"
           for pkg in ./void/*.xbps; do
             xbps-rindex --privkey private.pem --sign-pkg $pkg
           done
+
+      - name: Remove all packages that are no longer built
+        env:
+          PACKAGES: ${{ needs.init.outputs.matrix }}
+        run: |
+          mkdir void-supported
+          for pkg in $(echo "$PACKAGES" | jq -r '.package[]'); do
+            pkgver=$(xbps-query --repository="$(pwd)/void" --show $pkg --property pkgver)
+            cp void/$pkgver* void-supported
+          done
+          rm -f void/*.xbps void/*.xbps.sig2
+          cp void-supported/* void/
+
+      - name: Clean up repositories
+        run: |
+          xbps-rindex --hashcheck --clean "$(pwd)/void"
+          xbps-rindex --remove-obsoletes "$(pwd)/void"
 
       - name: Push updated repository to remote
         uses: stefanzweifel/git-auto-commit-action@v5
