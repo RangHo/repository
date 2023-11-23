@@ -24,7 +24,7 @@ jobs:
       - name: Find all Void Linux packages
         id: find-packages
         run: |
-          find void/srcpkgs -mindepth 1 -maxdepth 1 \
+          find void/srcpkgs -mindepth 1 -maxdepth 1 -type d \
             | sed 's|^void/srcpkgs/||' \
             | jq -R \
             | jq -cs '{ "package": . }' \
@@ -74,7 +74,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: void-${{ matrix.package }}
-          path: void-packages/hostdir/binpkgs/${{ matrix.package }}*.xbps
+          path: void-packages/hostdir/binpkgs/*.xbps
 
   deploy:
     name: Deploy all packages
