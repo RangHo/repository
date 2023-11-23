@@ -120,7 +120,7 @@ jobs:
         env:
           RANGHO_REPOSITORY_SIGNING_KEY: ${{ secrets.RANGHO_REPOSITORY_SIGNING_KEY }}
         run: |
-          cat "$RANGHO_REPOSITORY_SIGNING_KEY" > private.pem
+          echo "$RANGHO_REPOSITORY_SIGNING_KEY" > private.pem
           xbps-rindex --privkey private.pem --sign --signedby "RangHo Lee" ./void
           for pkg in void/*.xbps; do
             xbps-rindex --privkey private.pem --sign-pkg $pkg
