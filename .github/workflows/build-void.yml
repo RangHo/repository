@@ -5,7 +5,7 @@ on:
     branches:
       - source
     paths:
-      - void
+      - "void/**"
   workflow_dispatch:
 
 jobs:
@@ -37,7 +37,7 @@ jobs:
           )"
           echo "::notice title=Changed packages::$CHANGED_PKGS"
 
-          echo "$CHANGED_PKGS"
+          echo "$CHANGED_PKGS" \
             | jq -R \
             | jq -cs '{ "changed": . }' \
             > matrix.json
