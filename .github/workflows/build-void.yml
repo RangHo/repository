@@ -80,11 +80,11 @@ jobs:
     name: Deploy all packages
     runs-on: ubuntu-latest
     needs:
+      - init
       - build
     env:
       XBPS_ARCH: x86_64
       XBPS_TARGET_ARCH: x86_64
-    
 
     steps:
       - name: Checkout deploy branch
