@@ -149,7 +149,7 @@ jobs:
 
       - name: Clean up repositories
         run: |
-          xbps-rindex --hashcheck --clean "$(pwd)/void"
+          xbps-rindex --clean "$(pwd)/void"
           xbps-rindex --remove-obsoletes "$(pwd)/void"
 
       - name: Push updated repository to remote
