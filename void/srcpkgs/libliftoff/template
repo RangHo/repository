@@ -2,7 +2,12 @@
 pkgname=libliftoff
 version=0.4.1
 revision=3
-hostmakedepends="cmake meson ninja pkg-config"
+hostmakedepends="
+    cmake
+    meson
+    ninja
+    pkg-config
+"
 makedepends="libdrm-devel"
 depends="libdrm"
 short_desc="Lightweight KMS plane library"
@@ -13,15 +18,15 @@ distfiles="https://gitlab.freedesktop.org/emersion/${pkgname}/-/archive/v${versi
 checksum=44ec5cfdd0df040d1023d4d6a48b23c31f21ce61ee2347da9e1ca244fe24dd1c
 
 do_build() {
-	cd ${wrksrc}
-	meson setup --prefix=/usr build/
-	ninja -C build
+    cd ${wrksrc}
+    meson setup --prefix=/usr build/
+    ninja -C build
 }
 
 do_install() {
-	cd ${wrksrc}
-	meson install --destdir=$DESTDIR -C build
-	vlicense LICENSE
-	vmkdir usr/share/doc/${pkgname}
-	vinstall README.md 644 usr/share/doc/${pkgname}
+    cd ${wrksrc}
+    meson install --destdir=$DESTDIR -C build
+    vlicense LICENSE
+    vmkdir usr/share/doc/${pkgname}
+    vinstall README.md 644 usr/share/doc/${pkgname}
 }

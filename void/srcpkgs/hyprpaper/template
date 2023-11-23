@@ -2,15 +2,19 @@
 pkgname=hyprpaper
 version=0.3.0
 revision=3
-hostmakedepends="pkg-config cmake wayland-devel"
+hostmakedepends="
+    pkg-config
+    cmake
+    wayland-devel
+"
 makedepends="
-	pango-devel
-	cairo-devel
-	libjpeg-turbo-devel
-	wayland-devel
-	wayland-protocols
-	wlroots-devel
-	hyprland-protocols
+    pango-devel
+    cairo-devel
+    libjpeg-turbo-devel
+    wayland-devel
+    wayland-protocols
+    wlroots-devel
+    hyprland-protocols
 "
 short_desc="A blazing fast wallpaper utility for wlroots compositors with IPC controls"
 maintainer="RangHo Lee <hello@rangho.me>"
@@ -20,17 +24,17 @@ distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
 checksum=0b01e2ea3058e279315f75bedbddc9257c3aeeebd00a781fd56be4897a5d0612
 
 do_build() {
-	cmake \
-		--no-warn-unused-cli \
-		-G "Unix Makefiles" \
-		-D CMAKE_BUILD_TYPE=Release \
-		-D CMAKE_INSTALL_PREFIX=/usr \
-		-B build
-	make protocols
-	make -C build all
+    cmake \
+        --no-warn-unused-cli \
+        -G "Unix Makefiles" \
+        -D CMAKE_BUILD_TYPE=Release \
+        -D CMAKE_INSTALL_PREFIX=/usr \
+        -B build
+    make protocols
+    make -C build all
 }
 
 do_install() {
-	vbin build/hyprpaper
-	vlicense LICENSE
+    vbin build/hyprpaper
+    vlicense LICENSE
 }
