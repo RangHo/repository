@@ -121,12 +121,14 @@ jobs:
           PACKAGES: ${{ needs.init.outputs.matrix }}
         run: |
           mkdir void-supported
+          ls -la $(pwd)
           for pkg in $(echo "$PACKAGES" | jq -r '.package[]'); do
             pkgver=$(xbps-query --repository="$(pwd)/void" --show $pkg --property pkgver)
             echo "Found package: $pkgver"
             mv void/$pkgver* void-supported/
           done
-          echo Leftover packages: void/*.xbps
+          echo "Leftover packages:"
+          ls void
           rm -f void/*.xbps void/*.xbps.sig2
           cp void-supported/* void/
 
