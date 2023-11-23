@@ -21,13 +21,25 @@ jobs:
         with:
           submodules: true
 
-      - name: Find all Void Linux packages
+      - name: Find all Void Linux packages where changes are available
         id: find-packages
         run: |
-          find void/srcpkgs -mindepth 1 -maxdepth 1 -type d \
-            | sed 's|^void/srcpkgs/||' \
+          CHANGED_PKGS="$( \
+            find void/srcpkgs -mindepth 1 -maxdepth 1 -type d \
+            | while read -r pkg; do \
+                git diff --exit-code --quiet \
+                  ${{ github.event.base_ref }} \
+                  ${{ github.event.before }} \
+                  -- $pkg \
+                || echo $pkg \
+            ; done \
+            | sed 's|^void/srcpkgs/||'
+          )"
+          echo "::notice title=Changed packages::$CHANGED_PKGS"
+
+          echo "$CHANGED_PKGS"
             | jq -R \
-            | jq -cs '{ "path": . }' \
+            | jq -cs '{ "changed": . }' \
             > matrix.json
           echo "matrix=$(cat matrix.json)" >> $GITHUB_OUTPUT
 
@@ -68,13 +80,13 @@ jobs:
           cd void-packages
           ./xbps-src zap
           ./xbps-src binary-bootstrap
-          ./xbps-src pkg "${{ matrix.path }}"
+          ./xbps-src pkg "${{ matrix.changed }}"
 
       - name: Upload package as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: void-${{ matrix.path }}
-          path: void-packages/hostdir/binpkgs/${{ matrix.path }}*.xbps
+          name: void-${{ matrix.changed }}
+          path: void-packages/hostdir/binpkgs/${{ matrix.changed }}*.xbps
 
   deploy:
     name: Deploy all packages
@@ -99,7 +111,6 @@ jobs:
           tar -xJvf xbps.tar.xz
           rm xbps.tar.xz
           echo "$(pwd)/usr/bin" >> $GITHUB_PATH
-
 
       - name: Copy all packages into void directory
         run: |

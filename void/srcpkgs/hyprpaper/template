@@ -1,7 +1,7 @@
 # Template file for 'hyprpaper'
 pkgname=hyprpaper
 version=0.3.0
-revision=1
+revision=2
 hostmakedepends="pkg-config cmake wayland-devel"
 makedepends="
 	pango-devel
@@ -13,7 +13,7 @@ makedepends="
 	hyprland-protocols
 "
 short_desc="A blazing fast wallpaper utility for wlroots compositors with IPC controls"
-maintainer="Makrennel <makrommel@protonmail.ch>"
+maintainer="RangHo Lee <hello@rangho.me>"
 license="BSD"
 homepage="https://github.com/hyprwm/${pkgname}"
 distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"

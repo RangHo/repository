@@ -1,12 +1,12 @@
 # Template file for 'hyprland-protocols'
 pkgname=hyprland-protocols
 version=0.2
-revision=1
+revision=2
 build_style=meson
 hostmakedepends="wayland-devel"
 makedepends="wayland-devel"
 short_desc="Wayland protocol extensions for Hyprland"
-maintainer="Makrennel <makrommel@protonmail.ch>"
+maintainer="RangHo Lee <hello@rangho.me>"
 license="BSD"
 homepage="https://github.com/hyprwm/${pkgname}"
 distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"

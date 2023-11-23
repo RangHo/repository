@@ -1,7 +1,7 @@
 # Template file for 'hyprland'
 pkgname=hyprland
 version=0.29.1
-revision=3
+revision=4
 hostmakedepends="jq git pkg-config glslang hwids meson cmake ninja autoconf mk-configure"
 makedepends="
 	cairo-devel
@@ -36,7 +36,7 @@ depends="
 	xorg-server-xwayland
 "
 short_desc="Dynamic tiling Wayland compositor that doesn't sacrifice on its looks"
-maintainer="Makrennel <makrommel@protonmail.ch>"
+maintainer="RangHo Lee <hello@rangho.me>"
 license="BSD"
 homepage="https://hyprland.org/"
 changelog="https://github.com/hyprwm/Hyprland/releases"
