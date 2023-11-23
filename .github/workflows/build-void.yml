@@ -72,7 +72,7 @@ jobs:
           ./xbps-src pkg "${{ matrix.package }}"
           printf "pkgfile=%s-%s.%s.xbps\n" \
             "${{ matrix.package }}" \
-            "$(./xbps-src show "${{ matrix.package }}" | grep 'version' | tr -d ' ' | cut -d ':' -f 2)" \
+            "$(./xbps-src show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
             "$(uname -m)" \
             >> $GITHUB_OUTPUT
 
