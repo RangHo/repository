@@ -116,8 +116,9 @@ jobs:
           XBPS_ARCH: x86_64
           XBPS_TARGET_ARCH: x86_64
 
-      - name: Upload the repository as artifact
-        uses: actions/upload-artifact@v3
+      - name: Push updated repository to remote
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          name: void-repo
-          path: void
+          commit_message: Upload Void Linux packages
+          file_pattern: "void/*"
+          push_options: "--force"
