@@ -116,6 +116,21 @@ jobs:
             xbps-rindex --add $pkg
           done
 
+      - name: Remove all packages that are no longer built
+        env:
+          PACKAGES: ${{ needs.init.outputs.matrix }}
+        run: |
+          mkdir void-supported
+          for pkg in $(echo "$PACKAGES" | jq -r '.package[]'); do
+            pkgver=$(xbps-query --repository="$(pwd)/void" --show $pkg --property pkgver)
+            echo "Found package: $pkgver"
+            cp void/$pkgver* void-supported/
+          done
+          rm -f void/*.xbps void/*.xbps.sig2
+          cp void-supported/* void/
+          ls void
+          ls void-supported
+
       - name: Sign all packages in the repository
         run: |
           echo "${{ secrets.RANGHO_REPOSITORY_SIGNING_KEY }}" > private.pem
@@ -127,18 +142,6 @@ jobs:
           for pkg in ./void/*.xbps; do
             xbps-rindex --privkey private.pem --sign-pkg $pkg
           done
-
-      - name: Remove all packages that are no longer built
-        env:
-          PACKAGES: ${{ needs.init.outputs.matrix }}
-        run: |
-          mkdir void-supported
-          for pkg in $(echo "$PACKAGES" | jq -r '.package[]'); do
-            pkgver=$(xbps-query --repository="$(pwd)/void" --show $pkg --property pkgver)
-            cp void/$pkgver* void-supported
-          done
-          rm -f void/*.xbps void/*.xbps.sig2
-          cp void-supported/* void/
 
       - name: Clean up repositories
         run: |
