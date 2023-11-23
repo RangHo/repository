@@ -70,9 +70,10 @@ jobs:
           ./xbps-src zap
           ./xbps-src binary-bootstrap
           ./xbps-src pkg "${{ matrix.package }}"
-          printf "pkgfile=%s-%s.%s.xbps\n" \
+          printf "pkgfile=%s-%s_%s.%s.xbps\n" \
             "${{ matrix.package }}" \
             "$(./xbps-src show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
+            "$(./xbps-src show "${{ matrix.package }}" | grep 'revision' | sed 's/\t//' | cut -d ':' -f 2)" \
             "$(uname -m)" \
             >> $GITHUB_OUTPUT
 
