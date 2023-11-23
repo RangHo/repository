@@ -118,11 +118,16 @@ jobs:
 
       - name: Sign all packages in the repository
         env:
-          RANGHO_REPOSITORY_SIGNING_KEY: ${{ secrets.RANGHO_REPOSITORY_SIGNING_KEY }}
+          XBPS_ARCH: x86_64
+          XBPS_TARGET_ARCH: x86_64
         run: |
-          echo "$RANGHO_REPOSITORY_SIGNING_KEY" > private.pem
-          xbps-rindex --privkey private.pem --sign --signedby "RangHo Lee" ./void
-          for pkg in void/*.xbps; do
+          echo "${{ secrets.RANGHO_REPOSITORY_SIGNING_KEY }}" > private.pem
+          xbps-rindex \
+            --privkey private.pem \
+            --sign \
+            --signedby "RangHo Lee <hello@rangho.me>" \
+            ./void
+          for pkg in ./void/*.xbps; do
             xbps-rindex --privkey private.pem --sign-pkg $pkg
           done
 
