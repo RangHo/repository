@@ -24,7 +24,7 @@ jobs:
       - name: Find all Void Linux packages
         id: find-packages
         run: |
-          find void/srcpkgs -mindepth 1 -maxdepth 1 -type d \
+          find void/srcpkgs -mindepth 1 -maxdepth 1 \
             | sed 's|^void/srcpkgs/||' \
             | jq -R \
             | jq -cs '{ "package": . }' \
