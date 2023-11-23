@@ -28,7 +28,7 @@ jobs:
             find void/srcpkgs -mindepth 1 -maxdepth 1 -type d \
             | while read -r pkg; do \
                 git diff --exit-code --quiet \
-                  ${{ github.event.base_ref }} \
+                  ${{ github.ref }} \
                   ${{ github.event.before }} \
                   -- $pkg \
                 || echo $pkg \
