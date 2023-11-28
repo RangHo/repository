@@ -24,7 +24,7 @@ short_desc="ElKowar's Wacky Widgets"
 maintainer="RangHo Lee <hello@rangho.me>"
 license="MIT"
 homepage="https://github.com/elkowar/eww"
-distfiles="${homepage}/archive/${version}.zip"
+distfiles="${homepage}/archive/$(echo ${version} | cut -d'.' -f2).zip"
 checksum=705e7facbde7c860118ba0d7db70ee760bdb89d844de3bf7506e529d81ecd584
 
 do_build() {
