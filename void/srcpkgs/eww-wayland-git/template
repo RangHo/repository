@@ -1,5 +1,5 @@
 pkgname=eww-wayland-git
-version=a9a35c1804d72ef92e04ee71555bd9e5a08fa17e
+version=0.a9a35c1804d72ef92e04ee71555bd9e5a08fa17e
 revision=1
 build_style=cargo
 hostmakedepends="
