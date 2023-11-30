@@ -1,0 +1,23 @@
+# Template file for 'python-build-meta'
+pkgname=python-build-meta
+version=0.0.0
+revision=1
+build_style=meta
+depends="
+    base-devel
+    libffi-devel
+    readline-devel
+    gdbm-devel
+    openssl-devel
+    expat-devel
+    sqlite-devel
+    bzip2-devel
+    zlib-devel
+    ca-certificates
+    liblzma-devel
+    tk-devel
+"
+short_desc="Meta package to install everything needed for python-build script"
+maintainer="RangHo Lee <hello@rangho.me>"
+license="Public Domain"
+homepage="https://github.com/pyenv/pyenv/wiki#suggested-build-environment"
