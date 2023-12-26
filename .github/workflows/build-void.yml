@@ -132,7 +132,7 @@ jobs:
           cp ./void-previous/${XBPS_ARCH}-repodata ./void/${XBPS_ARCH}-repodata
           for pkg in $(echo "$PACKAGES" | jq -r '.package[]'); do
             pkgver=$(xbps-query --repository="$(pwd)/void-previous" --show $pkg --property pkgver)
-            mv $(pwd)/void-previous/$pkgver.$XBPS_ARCH.xbps $(pwd)/void
+            mv $(pwd)/void-previous/$pkgver.$XBPS_ARCH.xbps $(pwd)/void || echo "::warning::Previous version of $pkgver is not found"
           done
 
       - name: Sign all packages in the repository
