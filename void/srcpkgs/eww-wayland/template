@@ -3,6 +3,7 @@ version=0.5.0
 revision=1
 build_style=cargo
 configure_args="--no-default-features --features=wayland"
+make_install_args="--path ./crates/eww"
 archs="~*-musl"
 hostmakedepends="
     curl
@@ -27,10 +28,3 @@ license="MIT"
 homepage="https://github.com/elkowar/eww"
 distfiles="${homepage}/archive/refs/tags/v${version}.zip"
 checksum=f436395a11ef2b2ef3f0ae8618e5d5c5e417eb72ac1b3fcc8945daeda7e4b6d1
-
-do_install() {
-    cargo install --path ./crates/eww --root="${DESTDIR}/usr" ${configure_args}
-
-    rm -f "${DESTDIR}"/usr/.crates.toml
-    rm -f "${DESTDIR}"/usr/.crates2.json
-}
