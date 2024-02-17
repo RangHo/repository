@@ -2,6 +2,7 @@ pkgname=eww-wayland
 version=0.5.0
 revision=1
 build_style=cargo
+configure_args="--no-default-features --features=wayland"
 hostmakedepends="
     curl
     pkg-config
@@ -27,26 +28,8 @@ homepage="https://github.com/elkowar/eww"
 distfiles="${homepage}/archive/refs/tags/v${version}.zip"
 checksum=f436395a11ef2b2ef3f0ae8618e5d5c5e417eb72ac1b3fcc8945daeda7e4b6d1
 
-do_build() {
-    # Rust Nightly is required
-    curl https://sh.rustup.rs -sSf \
-        | sh -s -- --no-modify-path --profile minimal --default-toolchain nightly -y
-    . /host/cargo/env
-
-    # Compile with Cargo nightly
-    cargo +nightly build --release --no-default-features --features=wayland
-}
-
-do_check() {
-    . /host/cargo/env
-
-    cargo +nightly test --release --no-default-features --features=wayland
-}
-
 do_install() {
-    . /host/cargo/env
-
-    cargo +nightly install --path ./crates/eww --root="${DESTDIR}/usr" --no-default-features --features=wayland
+    cargo install --path ./crates/eww --root="${DESTDIR}/usr" ${configure_args}
 
     rm -f "${DESTDIR}"/usr/.crates.toml
     rm -f "${DESTDIR}"/usr/.crates2.json
