@@ -3,6 +3,7 @@ version=0.5.0
 revision=1
 build_style=cargo
 configure_args="--no-default-features --features=wayland"
+archs="~*-musl"
 hostmakedepends="
     curl
     pkg-config
