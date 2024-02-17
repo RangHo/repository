@@ -90,8 +90,8 @@ jobs:
       - init
       - build
     env:
-      XBPS_ARCH: x86_64
-      XBPS_TARGET_ARCH: x86_64
+      XBPS_TARGET_MACHINE: x86_64
+      XBPS_TARGET_LIBC: glibc
 
     steps:
       - name: Checkout deploy branch
