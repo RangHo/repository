@@ -104,6 +104,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           path: artifacts
+          pattern: void-*
 
       - name: Install latest version of xbps
         run: |
