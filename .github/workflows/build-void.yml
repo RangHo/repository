@@ -123,18 +123,6 @@ jobs:
             xbps-rindex --add $pkg
           done
 
-      - name: Remove all packages that are no longer built
-        env:
-          PACKAGES: ${{ needs.init.outputs.matrix }}
-        run: |
-          mv ./void ./void-previous
-          mkdir ./void
-          cp ./void-previous/${XBPS_ARCH}-repodata ./void/${XBPS_ARCH}-repodata
-          for pkg in $(echo "$PACKAGES" | jq -r '.package[]'); do
-            pkgver=$(xbps-query --repository="$(pwd)/void-previous" --show $pkg --property pkgver)
-            mv $(pwd)/void-previous/$pkgver.$XBPS_ARCH.xbps $(pwd)/void || echo "::warning::Previous version of $pkgver is not found"
-          done
-
       - name: Sign all packages in the repository
         run: |
           echo "${{ secrets.RANGHO_REPOSITORY_SIGNING_KEY }}" > private.pem
@@ -142,7 +130,7 @@ jobs:
             --privkey private.pem \
             --sign \
             --signedby "RangHo Lee <hello@rangho.me>" \
-            "$(pwd)/void"flatpak-xdg-compliant-1.15.6_1.x86_64.xbps.sig2
+            "$(pwd)/void"
           for pkg in ./void/*.xbps; do
             xbps-rindex --privkey private.pem --sign-pkg $pkg
           done
