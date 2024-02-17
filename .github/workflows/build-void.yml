@@ -67,9 +67,9 @@ jobs:
         id: build-package
         run: |
           cd void-packages
-          ./xbps-src -a x86_64 zap
-          ./xbps-src -a x86_64 binary-bootstrap
-          ./xbps-src -a x86_64 pkg "${{ matrix.package }}"
+          ./xbps-src zap
+          ./xbps-src binary-bootstrap
+          ./xbps-src pkg "${{ matrix.package }}"
           printf "pkgfile=%s-%s_%s.%s.xbps\n" \
             "${{ matrix.package }}" \
             "$(./xbps-src -a x86_64 show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
