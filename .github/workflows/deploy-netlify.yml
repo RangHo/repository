@@ -13,11 +13,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: void
+          path: void
 
       - name: Upload all build artifacts to Netlify
         uses: nwtgck/actions-netlify@v2
         with:
           publish-dir: .
+          production-deploy: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.RANGHO_REPOSITORY_NETLIFY_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.RANGHO_REPOSITORY_NETLIFY_ID }}
