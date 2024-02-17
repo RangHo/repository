@@ -1,0 +1,16 @@
+name: Update repository
+
+on:
+  push:
+    branches:
+      - source
+  workflow_dispatch:
+
+jobs:
+  build-void:
+    uses: ./.github/workflows/build-void.yml
+
+  deploy:
+    needs:
+      - build-void
+    uses: ./.github/workflows/deploy-netlify.yml

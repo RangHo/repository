@@ -1,12 +1,7 @@
 name: Build Void Linux packages
 
 on:
-  push:
-    branches:
-      - source
-    paths:
-      - "void/**"
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   init:
@@ -160,10 +155,3 @@ jobs:
         with:
           name: void
           path: void
-
-      - name: Push updated repository to remote
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: Upload Void Linux packages
-          file_pattern: "void/*"
-          push_options: "--force"

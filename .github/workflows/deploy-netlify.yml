@@ -1,0 +1,24 @@
+name: Deploy to Netlify
+
+on:
+  workflow_call:
+
+jobs:
+  main:
+    name: Depoly to Netlify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Void Linux artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: void
+
+      - name: Upload all build artifacts to Netlify
+        uses: nwtgck/actions-netlify@v2
+        with:
+          publish-dir: .
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.RANGHO_REPOSITORY_NETLIFY_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.RANGHO_REPOSITORY_NETLIFY_ID }}
+        
