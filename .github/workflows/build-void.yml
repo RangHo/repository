@@ -90,6 +90,7 @@ jobs:
       - init
       - build
     env:
+      XBPS_LIBC: glibc
       XBPS_TARGET_MACHINE: x86_64
       XBPS_TARGET_LIBC: glibc
 
