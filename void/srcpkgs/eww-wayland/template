@@ -9,7 +9,6 @@ hostmakedepends="
     libgcc-devel
 "
 makedepends="
-    glibc-devel
     gtk+3-devel
     gtk-layer-shell-devel
     pango-devel
