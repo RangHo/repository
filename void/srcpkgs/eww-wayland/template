@@ -1,7 +1,6 @@
-pkgname=eww-wayland-git
-version=0
+pkgname=eww-wayland
+version=0.5.0
 revision=1
-_commit=a9a35c1804d72ef92e04ee71555bd9e5a08fa17e
 build_style=cargo
 hostmakedepends="
     curl
@@ -25,8 +24,8 @@ short_desc="ElKowar's Wacky Widgets"
 maintainer="RangHo Lee <hello@rangho.me>"
 license="MIT"
 homepage="https://github.com/elkowar/eww"
-distfiles="${homepage}/archive/${_commit}.zip"
-checksum=705e7facbde7c860118ba0d7db70ee760bdb89d844de3bf7506e529d81ecd584
+distfiles="${homepage}/archive/refs/tags/v${version}.zip"
+checksum=f436395a11ef2b2ef3f0ae8618e5d5c5e417eb72ac1b3fcc8945daeda7e4b6d1
 
 do_build() {
     # Rust Nightly is required
