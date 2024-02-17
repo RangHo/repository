@@ -8,9 +8,13 @@ on:
 
 jobs:
   build-void:
+    name: Build Void Linux packages
     uses: ./.github/workflows/build-void.yml
+    secrets: inherit
 
   deploy:
+    name: Deploy everything to Netlify
     needs:
       - build-void
     uses: ./.github/workflows/deploy-netlify.yml
+    secrets: inherit
