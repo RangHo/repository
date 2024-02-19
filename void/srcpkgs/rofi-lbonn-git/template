@@ -3,7 +3,7 @@ pkgname=rofi-lbonn-git
 version=1.7.5
 revision=1
 _commit=a4c8135533d43989c51faa6ab78bffa1d909a1cf
-build_style=gnu-configure
+build_style=meson
 hostmakedepends="autoconf automake flex glib-devel pkg-config which"
 makedepends="libXinerama-devel librsvg-devel
  libxkbcommon-devel pango-devel startup-notification-devel
