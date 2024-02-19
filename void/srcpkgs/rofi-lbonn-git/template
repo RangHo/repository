@@ -23,6 +23,9 @@ checksum="8975c961e83d7c416387c30891418d21fe05621e83919f5c8bfcacf0eff98b56
  e29069ad65e0c188be249b5dee69f9a7e498c4139c7b2c8e8d54867ab544e6ba
  7cbd8582072fcb0b36ebe1659b745422b0ddaadf0e36a734fa51da72e30f6e45"
 
+skip_extraction="${_libgwater_commit}.zip
+ ${_libnkutils_commit}.zip"
+
 post_extract() {
     vsrcextract -C subprojects/libgwater "${_libgwater_commit}.zip"
     vsrcextract -C subprojects/libnkutils "${_libnkutils_commit}.zip"
