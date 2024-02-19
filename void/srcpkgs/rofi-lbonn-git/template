@@ -1,0 +1,20 @@
+# Template file for 'rofi-lbonn-git'
+pkgname=rofi-lbonn-git
+version=1.7.5
+revision=1
+_commit=a4c8135533d43989c51faa6ab78bffa1d909a1cf
+build_style=gnu-configure
+hostmakedepends="autoconf automake flex glib-devel pkg-config which"
+makedepends="libXinerama-devel librsvg-devel
+ libxkbcommon-devel pango-devel startup-notification-devel
+ xcb-util-wm-devel xcb-util-xrm-devel xcb-util-cursor-devel"
+short_desc="Window switcher, run dialog and dmenu replacement (lbonn's fork)"
+maintainer="RangHo Lee <hello@rangho.me>"
+license="MIT"
+homepage="https://github.com/lbonn/rofi"
+distfiles="${homepage}/archive/${_commit}.zip"
+checksum=8975c961e83d7c416387c30891418d21fe05621e83919f5c8bfcacf0eff98b56
+
+post_install() {
+	vlicense COPYING
+}
