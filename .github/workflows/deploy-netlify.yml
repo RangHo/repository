@@ -16,7 +16,7 @@ jobs:
           path: void
 
       - name: Upload all build artifacts to Netlify
-        uses: nwtgck/actions-netlify@v2
+        uses: nwtgck/actions-netlify@v3
         with:
           publish-dir: .
           production-deploy: true
