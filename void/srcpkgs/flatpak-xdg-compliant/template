@@ -2,7 +2,7 @@
 pkgname=flatpak-xdg-compliant
 version=1.14.5
 revision=1
-build_style=meson
+build_style=gnu-configure
 build_helper="gir"
 configure_args="
     -Ddbus_config_dir=/usr/share/dbus-1/system.d
