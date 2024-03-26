@@ -76,13 +76,13 @@ jobs:
             >> $GITHUB_OUTPUT
 
       - name: Upload package as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: void-${{ matrix.package }}
           path: void-packages/hostdir/binpkgs/${{ steps.build-package.outputs.pkgfile }}
 
-  deploy:
-    name: Deploy all packages
+  register:
+    name: Register all packages
     runs-on: ubuntu-latest
     needs:
       - build
@@ -147,7 +147,7 @@ jobs:
           mv raw.tar.gz ./void/
 
       - name: Upload the resulting repository as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: void
           path: void
