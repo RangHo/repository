@@ -1,8 +1,8 @@
 # Template file for 'flatpak'
 pkgname=flatpak-xdg-compliant
-version=1.14.5
+version=1.15.6
 revision=1
-build_style=gnu-configure
+build_style=meson
 build_helper="gir"
 configure_args="
     -Ddbus_config_dir=/usr/share/dbus-1/system.d
@@ -26,7 +26,7 @@ license="LGPL-2.1-or-later"
 homepage="https://github.com/RangHo/flatpak-xdg-compliant"
 changelog="https://github.com/RangHo/flatpak-xdg-compliant/raw/main/NEWS"
 distfiles="https://github.com/RangHo/flatpak-xdg-compliant/releases/download/v${version}/flatpak-xdg-compliant-${version}.tar.gz"
-checksum=7dc778b10947bfeacd7680530e6c74eca55aa8a643bc2cb469430241f5a339e8
+checksum=9f1d1da5dcb0a95e6ce983aa0b3f67793f830216063a3b10155480ebc72982e7
 
 build_options="gir"
 build_options_default="gir"
