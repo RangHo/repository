@@ -91,15 +91,6 @@ jobs:
       XBPS_TARGET_ARCH: x86_64
 
     steps:
-      - name: Download previous repository or initialize
-        run: |
-          if curl -LI https://repo.rangho.dev/void/raw.tar.gz | head -n1 | grep 200; then
-            curl -L https://repo.rangho.dev/void/raw.tar.gz -o void.tar.gz
-            tar -xzvf void.tar.gz
-          else
-            mkdir void
-          fi
-
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -115,6 +106,7 @@ jobs:
 
       - name: Copy all packages into repository directory
         run: |
+          mkdir ./void
           cp ./artifacts/*/*.xbps ./void
 
       - name: Add all packages to the repository
@@ -140,11 +132,6 @@ jobs:
         run: |
           xbps-rindex --clean "$(pwd)/void"
           xbps-rindex --remove-obsoletes "$(pwd)/void"
-
-      - name: Regenerate raw archive
-        run: |
-          tar -czvf raw.tar.gz ./void
-          mv raw.tar.gz ./void/
 
       - name: Upload the resulting repository as artifact
         uses: actions/upload-artifact@v4
