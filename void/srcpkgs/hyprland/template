@@ -121,10 +121,3 @@ hyprland-devel_package() {
 		vmove usr/share/pkgconfig
 	}
 }
-
-hyprland-nvidia_package() {
-	depends="${sourcepkg}>=${version}_${revision}"
-	short_desc="Dynamic tiling Wayland compositor - transitional dummy package"
-	build_style=meta
-}
-
