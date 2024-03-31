@@ -113,7 +113,7 @@ jobs:
         run: |
           cd void
           for pkg in *.xbps; do
-            xbps-rindex --force --add $pkg
+            xbps-rindex --add $pkg
           done
 
       - name: Sign all packages in the repository
@@ -125,7 +125,7 @@ jobs:
             --signedby "RangHo Lee <hello@rangho.me>" \
             "$(pwd)/void"
           for pkg in ./void/*.xbps; do
-            xbps-rindex --privkey private.pem --force --sign-pkg $pkg
+            xbps-rindex --privkey private.pem --sign-pkg $pkg
           done
 
       - name: Clean up repositories
