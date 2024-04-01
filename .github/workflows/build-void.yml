@@ -1,7 +1,6 @@
 name: Build Void Linux packages
 
-on:
-  workflow_call:
+on: workflow_call
 
 jobs:
   init:
