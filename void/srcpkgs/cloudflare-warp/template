@@ -17,22 +17,33 @@ post_extract() {
 }
 
 do_install() {
+    # Binaries
     vbin bin/warp-cli
     vbin bin/warp-dex
     vbin bin/warp-diag
     vbin bin/warp-svc
     vbin bin/warp-taskbar
-    
-    vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-connected.svg 644 \
-	     usr/share/icons/hicolor/scalable/apps
+
+    # Desktop entries
+    vinstall usr/share/applications/com.cloudflare.WarpTaskbar.desktop 644 \
+             usr/share/applications
+
+    # Icons
     vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-disconnected.svg 644 \
-	     usr/share/icons/hicolor/scalable/apps
+             usr/share/icons/hicolor/scalable/apps
+    vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-connected-exclamation.svg 644 \
+             usr/share/icons/hicolor/scalable/apps
+    vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-orange.svg 644 \
+             usr/share/icons/hicolor/scalable/apps
+    vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-connected.svg 644 \
+             usr/share/icons/hicolor/scalable/apps
     vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-error.svg 644 \
-	     usr/share/icons/hicolor/scalable/apps
-    vinstall usr/share/icons/hicolor/scalable/apps/zero-trust.svg 644 \
-	     usr/share/icons/hicolor/scalable/apps
+             usr/share/icons/hicolor/scalable/apps
 
+    # License and documents
     vlicense cloudflare-terms-of-service.html
+    vdoc usr/share/doc/cloudflare-warp
 
+    # Services
     vsv warp-svc
 }
