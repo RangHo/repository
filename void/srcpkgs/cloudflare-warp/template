@@ -1,0 +1,48 @@
+# Template file for 'cloudflare-warp'
+pkgname=cloudflare-warp
+version=2024.2.62
+revision=1
+archs="x86_64"
+create_wrksrc=yes
+short_desc="Cloudflare WARP client"
+maintainer="RangHo Lee <hello@rangho.me>"
+license="custom:Proprietary"
+homepage="https://one.one.one.one/"
+distfiles="https://pkg.cloudflareclient.com/pool/bookworm/main/c/cloudflare-warp/cloudflare-warp_${version}-1_amd64.deb"
+checksum=f9ece82b7fe8e3dd9382fcc8fe23591cf65b0382e0267bb216d750ad107aeeff
+nostrip=yes
+
+post_extract() {
+    $XBPS_FETCH_CMD 'https://www.cloudflare.com/application/terms/' -o cloudflare-terms-of-service.html
+}
+
+do_install() {
+    # Binary
+    vbin bin/warp-cli
+    vbin bin/warp-dex
+    vbin bin/warp-diag
+    vbin bin/warp-svc
+    vbin bin/warp-taskbar
+
+    # Desktop entry
+    vinstall usr/share/applications/com.cloudflare.WarpTaskbar.desktop 644 \
+             usr/share/applications
+
+    # Icon
+    vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-disconnected.svg 644 \
+             usr/share/icons/hicolor/scalable/apps
+    vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-connected-exclamation.svg 644 \
+             usr/share/icons/hicolor/scalable/apps
+    vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-orange.svg 644 \
+             usr/share/icons/hicolor/scalable/apps
+    vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-connected.svg 644 \
+             usr/share/icons/hicolor/scalable/apps
+    vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-error.svg 644 \
+             usr/share/icons/hicolor/scalable/apps
+
+    # License
+    vlicense cloudflare-terms-of-service.html
+
+    # Service
+    vsv warp-svc
+}
