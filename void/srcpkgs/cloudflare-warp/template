@@ -44,5 +44,5 @@ do_install() {
     vlicense cloudflare-terms-of-service.html
 
     # Service
-    vsv ${FILESDIR}/warp-svc
+    vsv warp-svc
 }
