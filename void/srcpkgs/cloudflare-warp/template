@@ -19,7 +19,6 @@ post_extract() {
 do_install() {
     # Binary
     vbin bin/warp-cli
-    vbin bin/warp-dex
     vbin bin/warp-diag
     vbin bin/warp-svc
     vbin bin/warp-taskbar
