@@ -9,7 +9,7 @@ maintainer="RangHo Lee <hello@rangho.me>"
 license="custom:Proprietary"
 homepage="https://one.one.one.one/"
 distfiles="https://pkg.cloudflareclient.com/pool/bookworm/main/c/cloudflare-warp/cloudflare-warp_${version}-1_amd64.deb"
-checksum=a6ae6ca8042edd41848e3edf29cb5437f26025afd7ce2b420bb9046a71f0d2e8
+checksum=f9ece82b7fe8e3dd9382fcc8fe23591cf65b0382e0267bb216d750ad107aeeff
 nostrip=yes
 
 post_extract() {
