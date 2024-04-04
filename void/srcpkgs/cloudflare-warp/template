@@ -17,18 +17,18 @@ post_extract() {
 }
 
 do_install() {
-    # Binaries
+    # Binary
     vbin bin/warp-cli
     vbin bin/warp-dex
     vbin bin/warp-diag
     vbin bin/warp-svc
     vbin bin/warp-taskbar
 
-    # Desktop entries
+    # Desktop entry
     vinstall usr/share/applications/com.cloudflare.WarpTaskbar.desktop 644 \
              usr/share/applications
 
-    # Icons
+    # Icon
     vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-disconnected.svg 644 \
              usr/share/icons/hicolor/scalable/apps
     vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-connected-exclamation.svg 644 \
@@ -40,10 +40,9 @@ do_install() {
     vinstall usr/share/icons/hicolor/scalable/apps/zero-trust-error.svg 644 \
              usr/share/icons/hicolor/scalable/apps
 
-    # License and documents
+    # License
     vlicense cloudflare-terms-of-service.html
-    vdoc usr/share/doc/cloudflare-warp
 
-    # Services
+    # Service
     vsv warp-svc
 }
