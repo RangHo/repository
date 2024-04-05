@@ -21,7 +21,7 @@ jobs:
           find arch -mindepth 1 -maxdepth 1 \
             | sed 's|^arch/||' \
             | jq -R \
-            | jq -cs '{ "packages": . }' \
+            | jq -cs '{ "package": . }' \
             > matrix.json
           echo "matrix=$(cat matrix.json)" >> $GITHUB_OUTPUT
 
