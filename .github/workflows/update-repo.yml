@@ -5,6 +5,11 @@ on:
   - workflow_dispatch
 
 jobs:
+  build-arch:
+    name: Build Arch Linux packages
+    uses: ./.github/workflows/build-arch.yml
+    secrets: inherit
+
   build-void:
     name: Build Void Linux packages
     uses: ./.github/workflows/build-void.yml
