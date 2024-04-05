@@ -11,3 +11,5 @@ git checkout "$REF"
 # Build the project
 ./gradlew build
 
+# Copy the APK to regular location
+cp app/build/outputs/apk/debug/app-debug.apk /dev.rangho.android.helloworld.apk

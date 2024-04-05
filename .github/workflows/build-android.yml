@@ -48,3 +48,9 @@ jobs:
         run: |
           cd android
           bash "${{ matrix.application }}.sh"
+
+      - name: Upload application as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ matrix.application }}
+          path: /${{ matrix.application }}.
