@@ -40,7 +40,7 @@ jobs:
           submodules: true
 
       - name: Set up Arch Linux environment
-        uses: RangHo/setup-arch@v1
+        uses: RangHo/setup-arch@main
 
       - name: Build package
         run: |
