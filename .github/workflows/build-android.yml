@@ -53,4 +53,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-${{ matrix.application }}
-          path: ${{ matrix.application }}.apk
+          path: android/${{ matrix.application }}.apk
