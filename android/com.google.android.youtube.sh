@@ -43,7 +43,6 @@ java -jar revanced-cli.jar patch \
      --patch-bundle revanced-patches.jar \
      --merge revanced-integrations.jar \
      --options options.json \
-     --exclusive \
      --include "GmsCore support" \
      --include "Client spoof" \
      --include "Change package name" \
@@ -52,8 +51,11 @@ java -jar revanced-cli.jar patch \
      --include "Minimized playback" \
      --include "Hide Shorts components" \
      --include "Disable resuming Shorts on startup" \
+     --include "Hide breaking news shelf" \
      --include "Remove tracking query parameter" \
      --include "Remove viewer discretion dialog" \
+     --include "Restore old video quality menu" \
+     --include "Remember video quality" \
      --include "Copy video URL" \
      --include "SponsorBlock" \
      --include "Return YouTube Dislike" \
