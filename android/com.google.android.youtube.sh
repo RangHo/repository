@@ -22,13 +22,22 @@ curl -Lo youtube.apk \
 
 echo "Patching YouTube APK..."
 cat <<EOF >options.json
-{
-  "patchName" : "GmsCore support",
-  "options" : [ {
-    "key" : "gmsCoreVendorGroupId",
-    "value" : "app.revanced"
-  } ]
-}
+[
+    {
+        "patchName" : "GmsCore support",
+        "options" : [{
+            "key" : "gmsCoreVendorGroupId",
+            "value" : "app.revanced"
+        }]
+    },
+    {
+        "patchName" : "Change package name",
+        "options" : [{
+            "key" : "packageName",
+            "value" : "Default"
+        }]
+    }
+]
 EOF
 java -jar revanced-cli.jar patch \
      --patch-bundle revanced-patches.jar \
