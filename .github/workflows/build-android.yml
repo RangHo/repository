@@ -70,7 +70,7 @@ jobs:
 
       - name: Install latest version of fdroidserver
         run: |
-          sudo pip install https://gitlab.com/fdroid/fdroidserver.git
+          sudo pip install git+https://gitlab.com/fdroid/fdroidserver.git
           fdroid --version
 
       - name: Copy all applications into repository directory
