@@ -5,6 +5,11 @@ on:
   - workflow_dispatch
 
 jobs:
+  build-flatpak:
+    name: Build Flatpak applications
+    uses: ./.github/workflows/build-flatpak.yml
+    secrets: inherit
+
   build-void:
     name: Build Void Linux packages
     uses: ./.github/workflows/build-void.yml
@@ -14,6 +19,7 @@ jobs:
     name: Deploy everything to Netlify
     if: github.ref == 'refs/heads/main'
     needs:
+      - build-flatpak
       - build-void
     uses: ./.github/workflows/deploy-netlify.yml
     secrets: inherit
