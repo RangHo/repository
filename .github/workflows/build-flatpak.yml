@@ -1,0 +1,68 @@
+name: Build Flatpak applications
+
+on: workflow_call
+
+jobs:
+  init:
+    name: Initialize Flatpak application builds
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.find-apps.outputs.matrix }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Find all Flatpak applications
+        id: find-apps
+        run: |
+          find flatpak -mindepth 1 -maxdepth 1 \
+            | sed 's|^flatpak/||' \
+            | jq -R \
+            | jq -cs '{ "application": . }' \
+            > matrix.json
+          echo "matrix=$(cat matrix.json)" >> $GITHUB_OUTPUT
+
+  build:
+    name: Build all applications
+    runs-on: ubuntu-latest
+    needs:
+      - init
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:freedesktop-23.08
+      options: --privileged
+    strategy:
+      matrix: ${{ fromJson(needs.init.outputs.matrix }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install SDKs
+        run: |
+          flatpak install -y org.kde.Platform org.kde.Sdk
+          flatpak install -y org.gnome.Platform org.gnome.Sdk
+
+      - name: Find the actual path to manifest
+        id: find-manifest
+        run: |
+          cd flatpak/${{ matrix.application }}
+          find . -type f -name "${{ matrix.application }}.json" -or -name "${{ matrix.application }}.yml" \
+            | xargs basename \
+            | xargs printf "basename=%s\n" \
+            >> $GITHUB_OUTPUT
+
+      - name: Build application
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: ${{ matrix.application }}.flatpak
+          manifest-path: flatpak/${{ matrix.application }}/${{ steps.find-manifest.outputs.basename }}
+          cache-key: flatpak-builder-${{ github.sha }}
+
+      - name: Upload application as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flatpak-${{ matrix.application }}
+          path: ${{ matrix.application }}.flatpak
