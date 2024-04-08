@@ -54,3 +54,32 @@ jobs:
         with:
           name: android-${{ matrix.application }}
           path: android/${{ matrix.application }}.apk
+
+  register:
+    name: Register all applications
+    runs-on: ubuntu-latest
+    needs:
+      - build
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: android-*
+
+      - name: Install latest version of fdroidserver
+        run: |
+          sudo pip install https://gitlab.com/fdroid/fdroidserver.git
+          fdroid --version
+
+      - name: Copy all applications into repository directory
+        run: |
+          mkdir ./android
+          cp ./artifacts/*/*.apk ./android
+
+      - name: Upload the resulting repository as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: android
