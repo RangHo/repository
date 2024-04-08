@@ -32,7 +32,7 @@ jobs:
       image: bilelmoussaoui/flatpak-github-actions:freedesktop-23.08
       options: --privileged
     strategy:
-      matrix: ${{ fromJson(needs.init.outputs.matrix }}
+      matrix: ${{ fromJson(needs.init.outputs.matrix) }}
 
     steps:
       - name: Checkout repository
