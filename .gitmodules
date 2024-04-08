@@ -20,3 +20,6 @@
 [submodule "android/vanced-microg"]
 	path = android/vanced-microg
 	url = https://github.com/TeamVanced/VancedMicroG
+[submodule "flatpak/us.zoom.Zoom"]
+	path = flatpak/us.zoom.Zoom
+	url = https://github.com/RangHo/zoom-flatpak
