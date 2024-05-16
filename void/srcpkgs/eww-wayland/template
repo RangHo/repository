@@ -17,6 +17,7 @@ makedepends="
     gdk-pixbuf-devel
     cairo-devel
     glib-devel
+    libdbusmenu-glib-devel
 "
 depends="
     gtk+3
