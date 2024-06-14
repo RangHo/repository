@@ -47,3 +47,9 @@ jobs:
           cd arch/${{ matrix.package }}
           makepkg -s
         shell: arch.sh {0}
+
+      - name: Uplaod package as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: arch-${{ matrix.package }}
+          path: arch/${{ matrix.package }}/*.pkg.tar.zst
