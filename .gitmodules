@@ -1,11 +1,3 @@
-[submodule "arch/ttf-d2coding"]
-	path = arch/ttf-d2coding
-	url = https://aur.archlinux.org/ttf-d2coding
-	branch = master
-[submodule "arch/ttf-neodgm"]
-	path = arch/ttf-neodgm
-	url = https://aur.archlinux.org/ttf-neodgm
-	branch = master
 [submodule "android/hello-world"]
 	path = android/hello-world
 	url = https://github.com/RangHo/android-hello-world
