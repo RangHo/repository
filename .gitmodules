@@ -4,3 +4,6 @@
 [submodule "android/vanced-microg"]
 	path = android/vanced-microg
 	url = https://github.com/TeamVanced/VancedMicroG
+[submodule "arch/hello"]
+	path = arch/hello
+	url = https://aur.archlinux.org/hello.git
