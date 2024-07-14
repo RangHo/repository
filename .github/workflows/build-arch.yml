@@ -70,14 +70,32 @@ jobs:
       - name: Set up Arch Linux environment
         uses: RangHo/setup-arch@v1
 
-      - name: Copy all packages into repository
+      - name: Copy all packages into repository directory
         run: |
           mkdir ./arch
           cp ./artifacts/*/*.pkg.tar.zst ./arch
 
+      - name: Sign all packages in the repository
+        run: |
+          echo "${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PRIVATE }}" > private.gpg
+          gpg --allow-secret-key-import --import private.gpg
+          cd arch
+          for pkg in *.pkg.tar.zst; do
+            echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }} \
+              | gpg \
+                --detach-sign \
+                --no-armor \
+                --default-key 5B7BDEC59930AB952EBBDEA60F0C772347B79377 \
+                --pinentry-mode loopback \
+                --passphrase-fd 0 \
+                $pkg
+          done
+
       - name: Add all packages to the repository
         run: |
-          repo-add ./arch/rangho-repository.db.tar.zst ./arch/*.pkg.tar.zst
+          repo-add \
+            --sign --key 5B7BDEC59930AB952EBBDEA60F0C772347B79377 \
+            ./arch/rangho-repository.db.tar.zst ./arch/*.pkg.tar.zst
         shell: arch.sh {0}
 
       - name: Upload the resulting repository as artifact
