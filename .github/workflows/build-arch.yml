@@ -53,3 +53,34 @@ jobs:
         with:
           name: arch-${{ matrix.package }}
           path: arch/${{ matrix.package }}/*.pkg.tar.zst
+
+  register:
+    name: Register all packages
+    runs-on: ubuntu-latest
+    needs:
+      - build
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: arch-*
+
+      - name: Set up Arch Linux environment
+        uses: RangHo/setup-arch@v1
+
+      - name: Copy all packages into repository
+        run: |
+          mkdir ./arch
+          cp ./artifacts/*.pkg.tar.zst ./arch
+
+      - name: Add all packages to the repository
+        run: |
+          repo-add ./arch/rangho-repository.db.tar.zst ./arch/*.pkg.tar.zst
+
+      - name: Upload the resulting repository as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: arch
+          path: arch
