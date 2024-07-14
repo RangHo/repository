@@ -73,11 +73,12 @@ jobs:
       - name: Copy all packages into repository
         run: |
           mkdir ./arch
-          cp ./artifacts/*.pkg.tar.zst ./arch
+          cp ./artifacts/*/*.pkg.tar.zst ./arch
 
       - name: Add all packages to the repository
         run: |
           repo-add ./arch/rangho-repository.db.tar.zst ./arch/*.pkg.tar.zst
+        shell: arch.sh {0}
 
       - name: Upload the resulting repository as artifact
         uses: actions/upload-artifact@v4
