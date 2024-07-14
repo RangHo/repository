@@ -1,0 +1,12 @@
+# Template file for 'xtrace'
+pkgname=xtrace
+version=1.4.0
+revision=1
+build_style=gnu-configure
+hostmakedepends="pkg-config"
+short_desc="X11 protocol monitor="
+maintainer="RangHo Lee <hello@rangho.me>"
+license="GPL-2.0-only"
+homepage="https://tracker.debian.org/pkg/xtrace"
+distfiles="http://deb.debian.org/debian/pool/main/x/xtrace/xtrace_${version}.orig.tar.xz"
+checksum=8aef15eb42fa36c80dd8185d0a940321ba851328a3738ae897b4352e94d6331e
