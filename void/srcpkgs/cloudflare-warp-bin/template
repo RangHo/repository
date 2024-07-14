@@ -1,5 +1,5 @@
-# Template file for 'cloudflare-warp'
-pkgname=cloudflare-warp
+# Template file for 'cloudflare-warp-bin'
+pkgname=cloudflare-warp-bin
 version=2024.2.62
 revision=1
 archs="x86_64"

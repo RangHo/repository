@@ -1,0 +1,15 @@
+# Template file for 'haskell-build-meta'
+pkgname=haskell-build-meta
+version=0.0.0
+revision=1
+build_style=meta
+depends="
+    base-devel
+    gmp-devel
+    ncurses-devel
+    libnuma-devel
+"
+short_desc="Meta package to install everything needed for building Haskell"
+maintainer="RangHo Lee <hello@rangho.me>"
+license="Public Domain"
+homepage="https://gitlab.haskell.org/ghc/ghc/-/wikis/building/preparation/linux"
