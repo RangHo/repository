@@ -74,6 +74,7 @@ jobs:
 
       - name: Sign all packages in the repository
         run: |
+          export GPG_TTY=$(tty)
           echo "${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PRIVATE }}" > private.gpg
           gpg --allow-secret-key-import --import private.gpg
           cd arch
