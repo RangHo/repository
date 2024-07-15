@@ -67,9 +67,6 @@ jobs:
           path: artifacts
           pattern: arch-*
 
-      - name: Set up Arch Linux environment
-        uses: RangHo/setup-arch@v1
-
       - name: Copy all packages into repository directory
         run: |
           mkdir ./arch
@@ -90,6 +87,9 @@ jobs:
                 --passphrase-fd 0 \
                 $pkg
           done
+
+      - name: Set up Arch Linux environment
+        uses: RangHo/setup-arch@v1
 
       - name: Add all packages to the repository
         run: |
