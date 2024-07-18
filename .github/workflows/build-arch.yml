@@ -94,6 +94,12 @@ jobs:
       - register
 
     steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: arch
+          pattern: arch-unsigned
+
       - name: Import GPG keys
         uses: crazy-max/ghaction-import-gpg@v6
         with:
