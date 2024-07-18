@@ -83,6 +83,7 @@ jobs:
 
       - name: Reset GPG store
         run: |
+          ls -la
           sudo rm -rf .gnupg
 
       - name: Import GPG keys
