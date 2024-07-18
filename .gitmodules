@@ -7,3 +7,6 @@
 [submodule "arch/hello"]
 	path = arch/hello
 	url = https://aur.archlinux.org/hello.git
+[submodule "arch/linux-rangho"]
+	path = arch/linux-rangho
+	url = https://aur.archlinux.org/linux-rangho.git
