@@ -83,7 +83,7 @@ jobs:
 
       - name: Reset GPG store
         run: |
-          sudo rm -rf .gpg
+          sudo rm -rf .gnupg
 
       - name: Import GPG keys
         uses: crazy-max/ghaction-import-gpg@v6
