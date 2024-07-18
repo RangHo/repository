@@ -8,11 +8,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Download Arch Linux artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: arch
+
       - name: Download Void Linux artifacts
         uses: actions/download-artifact@v4
         with:
           name: void
-          path: void
 
       - name: Upload all build artifacts to Netlify
         uses: nwtgck/actions-netlify@v3

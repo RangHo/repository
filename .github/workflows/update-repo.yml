@@ -21,6 +21,7 @@ jobs:
     name: Deploy everything to Netlify
     if: github.ref == 'refs/heads/main'
     needs:
+      - build-arch
       - build-void
     uses: ./.github/workflows/deploy-netlify.yml
     secrets: inherit
