@@ -97,7 +97,6 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          path: arch
           pattern: arch-unsigned
 
       - name: Import GPG keys
@@ -108,7 +107,7 @@ jobs:
 
       - name: Sign all packages in the repository
         run: |
-          cd arch
+          cd arch-unsigned
           for pkg in *.pkg.tar.zst; do
             echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }} \
               | gpg \
@@ -122,7 +121,7 @@ jobs:
 
       - name: Sign repository
         run: |
-          cd arch
+          cd arch-unsigned
           echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }} \
             | gpg \
               --detach-sign \
@@ -136,4 +135,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: arch
-          path: arch
+          path: arch-unsigned
