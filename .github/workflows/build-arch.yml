@@ -105,10 +105,10 @@ jobs:
           gpg_private_key: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PRIVATE }}
           passphrase: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }}
 
-      - name: Sign all packages in the repository
+      - name: Sign all files in the repository
         run: |
           cd arch-unsigned
-          for pkg in *.pkg.tar.zst; do
+          for pkg in *; do
             echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }} \
               | gpg \
                 --detach-sign \
@@ -118,18 +118,6 @@ jobs:
                 --passphrase-fd 0 \
                 $pkg
           done
-
-      - name: Sign repository
-        run: |
-          cd arch-unsigned
-          echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }} \
-            | gpg \
-              --detach-sign \
-              --no-armor \
-              --default-key 5B7BDEC59930AB952EBBDEA60F0C772347B79377 \
-              --pinentry-mode loopback \
-              --passphrase-fd 0 \
-              rangho-repository.db.tar.zst
 
       - name: Upload the resulting repository as artifact
         uses: actions/upload-artifact@v4
