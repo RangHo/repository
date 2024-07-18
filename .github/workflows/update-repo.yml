@@ -7,6 +7,11 @@ on:
   workflow_dispatch:
 
 jobs:
+  build-arch:
+    name: Build Arch Linux packages
+    uses: ./.github/workflows/build-arch.yml
+    secrets: inherit
+
   build-void:
     name: Build Void Linux packages
     uses: ./.github/workflows/build-void.yml
@@ -16,6 +21,7 @@ jobs:
     name: Deploy everything to Netlify
     if: github.ref == 'refs/heads/main'
     needs:
+      - build-arch
       - build-void
     uses: ./.github/workflows/deploy-netlify.yml
     secrets: inherit

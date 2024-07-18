@@ -1,22 +1,9 @@
-[submodule "arch/polybar"]
-	path = arch/polybar
-	url = https://aur.archlinux.org/polybar
-	branch = master
-[submodule "arch/ttf-d2coding"]
-	path = arch/ttf-d2coding
-	url = https://aur.archlinux.org/ttf-d2coding
-	branch = master
-[submodule "arch/ttf-neodgm"]
-	path = arch/ttf-neodgm
-	url = https://aur.archlinux.org/ttf-neodgm
-	branch = master
-[submodule "arch/nerd-fonts-complete"]
-	path = arch/nerd-fonts-complete
-	url = https://aur.archlinux.org/nerd-fonts-complete
-	branch = master
 [submodule "android/hello-world"]
 	path = android/hello-world
 	url = https://github.com/RangHo/android-hello-world
 [submodule "android/vanced-microg"]
 	path = android/vanced-microg
 	url = https://github.com/TeamVanced/VancedMicroG
+[submodule "arch/hello"]
+	path = arch/hello
+	url = https://aur.archlinux.org/hello.git
