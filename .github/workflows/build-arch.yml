@@ -72,6 +72,19 @@ jobs:
           mkdir ./arch
           cp ./artifacts/*/*.pkg.tar.zst ./arch
 
+      - name: Set up Arch Linux environment
+        uses: RangHo/setup-arch@v1
+
+      - name: Add all packages to the repository
+        run: |
+          repo-add \
+            ./arch/rangho-repository.db.tar.zst ./arch/*.pkg.tar.zst
+        shell: arch.sh {0}
+
+      - name: Reset GPG store
+        run: |
+          sudo rm -rf .gpg
+
       - name: Import GPG keys
         uses: crazy-max/ghaction-import-gpg@v6
         with:
@@ -92,15 +105,17 @@ jobs:
                 $pkg
           done
 
-      - name: Set up Arch Linux environment
-        uses: RangHo/setup-arch@v1
-
-      - name: Add all packages to the repository
+      - name: Sign repository
         run: |
-          repo-add \
-            --sign --key 5B7BDEC59930AB952EBBDEA60F0C772347B79377 \
-            ./arch/rangho-repository.db.tar.zst ./arch/*.pkg.tar.zst
-        shell: arch.sh {0}
+          cd arch
+          echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }} \
+            | gpg \
+              --detach-sign \
+              --no-armor \
+              --default-key 5B7BDEC59930AB952EBBDEA60F0C772347B79377 \
+              --pinentry-mode loopback \
+              --passphrase-fd 0 \
+              rangho-repository.db.tar.zst
 
       - name: Upload the resulting repository as artifact
         uses: actions/upload-artifact@v4
