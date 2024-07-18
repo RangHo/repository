@@ -72,13 +72,14 @@ jobs:
           mkdir ./arch
           cp ./artifacts/*/*.pkg.tar.zst ./arch
 
+      - name: Import GPG keys
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PRIVATE }}
+          passphrase: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }}
+
       - name: Sign all packages in the repository
         run: |
-          export GPG_TTY=$(tty)
-          echo "${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PUBLIC }}" > public.gpg
-          echo "${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PRIVATE }}" > private.gpg
-          gpg --import public.gpg
-          gpg --allow-secret-key-import --import private.gpg
           cd arch
           for pkg in *.pkg.tar.zst; do
             echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }} \
