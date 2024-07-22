@@ -47,7 +47,7 @@ jobs:
           cd arch/${{ matrix.package }}
           if [ -d keys ]; then
             sudo gpgconf --kill dirmngr
-            sudo chown $USER ~/.gnupg
+            sudo chown -R $USER ~/.gnupg
             find keys -type f | xargs gpg --import
           fi
           makepkg -s --noconfirm
