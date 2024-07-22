@@ -57,6 +57,3 @@ pkgname = linux-rangho
 pkgname = linux-rangho-headers
 	pkgdesc = Headers and scripts for building modules for the Linux ZEN with DesignWare I2C driver as module kernel
 	depends = pahole
-
-pkgname = linux-rangho-docs
-	pkgdesc = Documentation for the Linux ZEN with DesignWare I2C driver as module kernel
