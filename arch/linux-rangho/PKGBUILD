@@ -30,7 +30,7 @@ options=(
   !strip
 )
 _srcname=linux-${pkgver%.*}
-_srctag=v${pkgver%.*}-${pkgver##*.}
+_srctag=v${pkgver%.*}-zen1
 source=(
   https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/${_srcname}.tar.{xz,sign}
   $url/releases/download/$_srctag/linux-$_srctag.patch.zst{,.sig}
