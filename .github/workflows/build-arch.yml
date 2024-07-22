@@ -45,6 +45,9 @@ jobs:
       - name: Build package
         run: |
           cd arch/${{ matrix.package }}
+          if [ -d keys ]; then
+            find keys -type f | xargs gpg --import
+          fi
           makepkg -s --noconfirm
         shell: arch.sh {0}
 
