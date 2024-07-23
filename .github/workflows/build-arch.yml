@@ -42,10 +42,20 @@ jobs:
       - name: Set up Arch Linux environment
         uses: RangHo/setup-arch@v1
 
+      - name: Optimize runner disk space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+
       - name: Build package
         run: |
           cd arch/${{ matrix.package }}
-          makepkg -s
+          if [ -d keys ]; then
+            sudo gpgconf --kill dirmngr
+            sudo chown -R $USER ~/.gnupg
+            find keys -type f | xargs gpg --import
+          fi
+          MAKEFLAGS="--jobs=$(nproc)" makepkg -s --noconfirm
         shell: arch.sh {0}
 
       - name: Uplaod package as artifact
