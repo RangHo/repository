@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Write repository public key
+        run: |
+          echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PUBLIC }} > public.gpg
+
       - name: Download Arch Linux artifacts
         uses: actions/download-artifact@v4
         with:
