@@ -1,0 +1,22 @@
+# Template file for 'xmobar-build-meta'
+pkgname=xmobar-build-meta
+version=0.0.0
+revision=1
+build_style=meta
+depends="
+    alsa-lib-devel
+    pango-devel
+    wireless_tools-devel
+    libX11-devel
+    libXft-devel
+    libXinerama-devel
+    libxml2-devel
+    libXpm-devel
+    libXrandr-devel
+    libXScrnSaver-devel
+    pkg-config
+"
+short_desc="Meta package to install everything needed for building Xmobar"
+maintainer="RangHo Lee <hello@rangho.me>"
+license="Public Domain"
+homepage="https://codeberg.org/xmobar/xmobar/src/branch/master/doc/compiling.org"
