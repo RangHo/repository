@@ -1,6 +1,6 @@
 # Template file for 'floorp-bin'
 pkgname=floorp-bin
-version=11.19.1
+version=11.20.0
 revision=1
 hostmakedepends="ImageMagick"
 archs="x86_64"
@@ -10,7 +10,7 @@ maintainer="RangHo Lee <hello@rangho.me>"
 license="MPL-2.0"
 homepage="https://floorp.app/"
 distfiles="https://github.com/Floorp-Projects/Floorp/releases/download/v${version}/floorp-${version}.linux-x86_64.tar.bz2"
-checksum=1b84be3354dfa9857ff9bfe29590ef60f59351f4caf28e87cf19ca242991d80f
+checksum=59e3a67de994bfc8da3038cfb355b249ea67bf13bda8aaff021c459aabffb767
 nostrip=yes
 
 do_install() {
