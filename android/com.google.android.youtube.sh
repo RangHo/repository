@@ -1,11 +1,15 @@
 #!/bin/sh
 
+################################################################################
+
 # Version constants
 REVANCED_CLI_VERSION="4.6.0"
 REVANCED_PATCHES_VERSION="4.6.0"
 REVANCED_INTEGRATIONS_VERSION="1.7.0"
 
-YOUTUBE_DOWNLOAD_URL="https://dw.uptodown.net/dwn/GQhdVlAFQSoZNp-O95q_cmxUFxMBVqLM5sng2WFVDSNuZ7DGkOG-PbbYK6TWeVHwfEbPRO4zW3y1AfarEkp2K6JJ0wfkKFF13wmKYX40-YGLzRS5DZIhFkNlsy3bHQ4D/i1XNwSCw5jfzk59XR4J5BMt3SWl4PHGV5rVPp1eR_rhtoMQ5qLHgHy5dLafQYOYU-j7A0NuqhkBT3ykZX-A9DNJf1AL-_Mb_YmmYJ78z-Dc7nTJZN9VZXlGULbqCPJpi/ZhuzkvKPeJ5-9nkD2SH9YbAWYh0x5ArRKBnTfxBh8yTLXML5qcHjRIuI7B0U6zL2M5YpHYP6o3eTNTOBaapsug==/youtube-19-09-37.apk"
+YOUTUBE_VERSION="19.09.37"
+
+################################################################################
 
 echo "Downloading ReVanced utilities..."
 curl -Lo revanced-cli.jar \
@@ -16,9 +20,16 @@ curl -Lo revanced-integrations.jar \
      "https://github.com/ReVanced/revanced-integrations/releases/download/v${REVANCED_INTEGRATIONS_VERSION}/revanced-integrations-${REVANCED_INTEGRATIONS_VERSION}.apk"
 
 echo "Downloading official YouTube APK..."
-curl -Lo youtube.apk \
-     -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0" \
-     "${YOUTUBE_DOWNLOAD_URL}"
+npm install -g apkmirror-downloader
+cat <<EOF >app.json
+{
+    "org": "google-inc",
+    "id": "youtube",
+    "version": "${YOUTUBE_VERSION}",
+    "outFile": "youtube.apk"
+}
+EOF
+apkmd app.json
 
 echo "Patching YouTube APK..."
 cat <<EOF >options.json
