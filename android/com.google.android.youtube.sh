@@ -21,7 +21,7 @@ curl -Lo revanced-integrations.jar \
 
 echo "Downloading official YouTube APK..."
 npm install -g apkmirror-downloader
-cat <<EOF >download.js
+cat <<EOF >download.mjs
 import { APKMirrorDownloader } from 'apkmirror-downloader';
 
 const downloader = new APKMirrorDownloader({ 'overwrite': true });
@@ -33,7 +33,7 @@ downloader.download({
     "outFile": "youtube.apk"
 });
 EOF
-node download.js
+node download.mjs
 
 echo "Patching YouTube APK..."
 cat <<EOF >options.json
