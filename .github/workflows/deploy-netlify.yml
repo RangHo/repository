@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Write repository public key
         run: |
-          echo "${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PUBLIC }}" > public.gpg
+          echo "${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PUBLIC }}" > public.asc
 
       - name: Download Arch Linux artifacts
         uses: actions/download-artifact@v4
