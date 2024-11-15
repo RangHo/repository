@@ -19,17 +19,21 @@ curl -Lo revanced-patches.jar \
 curl -Lo revanced-integrations.jar \
      "https://github.com/ReVanced/revanced-integrations/releases/download/v${REVANCED_INTEGRATIONS_VERSION}/revanced-integrations-${REVANCED_INTEGRATIONS_VERSION}.apk"
 
-echo "Downloading official YouTube APK..."
+echo "Downloading official Pixiv APK..."
 npm install -g apkmirror-downloader
-cat <<EOF >app.json
-{
+cat <<EOF >download.js
+import { APKMirrorDownloader } from 'apkmirror-downloader';
+
+const downloader = new APKMirrorDownloader({ 'overwrite': true });
+
+downloader.download({
     "org": "pixiv-inc",
     "id": "pixiv",
     "version": "${PIXIV_VERSION}",
     "outFile": "pixiv.apk"
-}
+});
 EOF
-apkmd app.json
+node download.js
 
 echo "Patching Pixiv APK..."
 cat <<EOF >options.json
