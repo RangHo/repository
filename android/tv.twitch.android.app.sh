@@ -1,11 +1,15 @@
 #!/bin/sh
 
+################################################################################
+
 # Version constants
 REVANCED_CLI_VERSION="4.6.0"
 REVANCED_PATCHES_VERSION="4.6.0"
 REVANCED_INTEGRATIONS_VERSION="1.7.0"
 
-TWITCH_DOWNLOAD_URL="https://dw.uptodown.net/dwn/Oy2NVcMk0KWcIugrRZyAGz4YMiAeg2XtDmw4b_vA4OhbBUlQhG53TfhhpLFkRiIZF7VVaEzRqLblf0Kafetu7NmkF0yTbZIWHSIDisERZCJF7UYGszdnzu-Kg4iLdyao/PcYHuOaLz7uMXEF6Tnc37OUUe444IhOG5F5de_F9Q4cROL_WlRYM9G83VfXn1B-KyV9yVCxXfsEX7B27M2yVKyeLGXDUOdylXa2qCbG2hDlBa7h2qdfgyiIgVvzmrvxY/MwpL0KlNTWj8F_LlB_YKOO9piTd6q3Wm2j95hJ3bJL0inY6_60_chGkGkMMs1wJzldMMniSYQN0b4rNhZPLpRA==/twitch-16-9-1.apk"
+TWITCH_VERSION="16.9.1"
+
+################################################################################
 
 echo "Downloading ReVanced utilities..."
 curl -Lo revanced-cli.jar \
@@ -15,10 +19,17 @@ curl -Lo revanced-patches.jar \
 curl -Lo revanced-integrations.jar \
      "https://github.com/ReVanced/revanced-integrations/releases/download/v${REVANCED_INTEGRATIONS_VERSION}/revanced-integrations-${REVANCED_INTEGRATIONS_VERSION}.apk"
 
-echo "Downloading official Twitch APK..."
-curl -Lo twitch.apk \
-     -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0" \
-     "${TWITCH_DOWNLOAD_URL}"
+echo "Downloading official YouTube APK..."
+npm install -g apkmirror-downloader
+cat <<EOF >app.json
+{
+    "org": "twitch-interactive-inc",
+    "id": "twitch",
+    "version": "${TWITCH_VERSION}",
+    "outFile": "twitch.apk"
+}
+EOF
+apkmd app.json
 
 echo "Patching Twitch APK..."
 cat <<EOF >options.json

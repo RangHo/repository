@@ -1,11 +1,15 @@
 #!/bin/sh
 
+################################################################################
+
 # Version constants
 REVANCED_CLI_VERSION="4.6.0"
 REVANCED_PATCHES_VERSION="4.6.0"
 REVANCED_INTEGRATIONS_VERSION="1.7.0"
 
-PIXIV_DOWNLOAD_URL="https://dw.uptodown.net/dwn/Oy2NVcMk0KWcIugrRZyAGz4YMiAeg2XtDmw4b_vA4OjZETnpjOLknIqSu4wfqR5tgMXQ4iDUULo_pMcXvMRrbxrPhIQJZhrzAS8xWBzwp7muoZ6xo_sRYwHndqPDCpWD/uJvEbrOVIYjBNzGPx8orZV6VdFBrj-ilGUYtk3wxfykIOb0aUW8m_s7LExTaSxD0b9dyC7cYEUNuMjQ-ww60H3my2tgE5u-4QDqNQHspY7BbpA72YwgD5u7ouFSzyy8e/zkAWuQgKMYn5i1-rtEBHF0l8M0NbGftu4kn7KQk81JVz_ol8g_AHxd8U95vm0u09/pixiv-6-103-0.apk"
+PIXIV_VERSION="6.103.0"
+
+################################################################################
 
 echo "Downloading ReVanced utilities..."
 curl -Lo revanced-cli.jar \
@@ -15,10 +19,17 @@ curl -Lo revanced-patches.jar \
 curl -Lo revanced-integrations.jar \
      "https://github.com/ReVanced/revanced-integrations/releases/download/v${REVANCED_INTEGRATIONS_VERSION}/revanced-integrations-${REVANCED_INTEGRATIONS_VERSION}.apk"
 
-echo "Downloading official Pixiv APK..."
-curl -Lo pixiv.apk \
-     -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0" \
-     "${PIXIV_DOWNLOAD_URL}"
+echo "Downloading official YouTube APK..."
+npm install -g apkmirror-downloader
+cat <<EOF >app.json
+{
+    "org": "pixiv-inc",
+    "id": "pixiv",
+    "version": "${PIXIV_VERSION}",
+    "outFile": "pixiv.apk"
+}
+EOF
+apkmd app.json
 
 echo "Patching Pixiv APK..."
 cat <<EOF >options.json
