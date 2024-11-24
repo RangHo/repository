@@ -7,7 +7,9 @@ REVANCED_CLI_VERSION="4.6.0"
 REVANCED_PATCHES_VERSION="4.6.0"
 REVANCED_INTEGRATIONS_VERSION="1.7.0"
 
-TWITCH_VERSION="16.9.1"
+APKMIRROR_ORG="pixiv-inc"
+APKMIRROR_ID="pixiv"
+APKMIRROR_VERSION="16.9.1"
 
 ################################################################################
 
@@ -19,23 +21,23 @@ curl -Lo revanced-patches.jar \
 curl -Lo revanced-integrations.jar \
      "https://github.com/ReVanced/revanced-integrations/releases/download/v${REVANCED_INTEGRATIONS_VERSION}/revanced-integrations-${REVANCED_INTEGRATIONS_VERSION}.apk"
 
-echo "Downloading official Twitch APK..."
+echo "Downloading original APK..."
 npm install apkmirror-downloader
 cat <<EOF >download.js
-const { APKMirrorDownloader } = import('apkmirror-downloader');
+import('apkmirror-downloader').then(({ APKMirrorDownloader }) => {
+    const downloader = new APKMirrorDownloader({ 'overwrite': true });
 
-const downloader = new APKMirrorDownloader({ 'overwrite': true });
-
-downloader.download({
-    'org': 'twitch-interactive-inc',
-    'id': 'twitch',
-    'version': '${TWITCH_VERSION}',
-    'outFile': 'twitch.apk'
+    downloader.download({
+        "org": "${APKMIRROR_ORG}",
+        "id": "${APKMIRROR_ID}",
+        "version": "${APKMIRROR_VERSION}",
+        "outFile": "original.apk"
+    });
 });
 EOF
 node download.js
 
-echo "Patching Twitch APK..."
+echo "Patching APK..."
 cat <<EOF >options.json
 [
     {
@@ -58,6 +60,6 @@ java -jar revanced-cli.jar patch \
      --include "Settings" \
      --include "Auto claim channel points" \
      --include "Show deleted messages" \
-     twitch.apk
+     original.apk
 
-mv twitch-patched.apk tv.twitch.android.app.apk
+mv original-patched.apk tv.twitch.android.app.apk
