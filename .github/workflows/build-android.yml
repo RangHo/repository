@@ -68,15 +68,15 @@ jobs:
           path: artifacts
           pattern: android-*
 
-      - name: Install latest version of fdroidserver
-        run: |
-          sudo pip install git+https://gitlab.com/fdroid/fdroidserver.git
-          fdroid --version
-
       - name: Copy all applications into repository directory
         run: |
           mkdir ./android
           cp ./artifacts/*/*.apk ./android
+
+      - name: Install latest version of fdroidserver
+        run: |
+          sudo pip install git+https://gitlab.com/fdroid/fdroidserver.git
+          fdroid --version
 
       - name: Upload the resulting repository as artifact
         uses: actions/upload-artifact@v4
