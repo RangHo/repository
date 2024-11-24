@@ -10,3 +10,6 @@
 [submodule "arch/floorp-bin"]
 	path = arch/floorp-bin
 	url = https://aur.archlinux.org/floorp-bin.git
+[submodule "arch/swayfx"]
+	path = arch/swayfx
+	url = https://aur.archlinux.org/swayfx.git
