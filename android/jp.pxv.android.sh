@@ -22,7 +22,7 @@ curl -Lo revanced-integrations.jar \
 echo "Downloading official Pixiv APK..."
 npm install apkmirror-downloader
 cat <<EOF >download.js
-const { APKMirrorDownloader } = require('apkmirror-downloader');
+const { APKMirrorDownloader } = await import('apkmirror-downloader');
 
 const downloader = new APKMirrorDownloader({ 'overwrite': true });
 
