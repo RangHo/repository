@@ -20,9 +20,9 @@ curl -Lo revanced-integrations.jar \
      "https://github.com/ReVanced/revanced-integrations/releases/download/v${REVANCED_INTEGRATIONS_VERSION}/revanced-integrations-${REVANCED_INTEGRATIONS_VERSION}.apk"
 
 echo "Downloading official YouTube APK..."
-npm install -g apkmirror-downloader
-cat <<EOF >download.mjs
-import { APKMirrorDownloader } from 'apkmirror-downloader';
+npm install apkmirror-downloader
+cat <<EOF >download.js
+const { APKMirrorDownloader } = require('apkmirror-downloader');
 
 const downloader = new APKMirrorDownloader({ 'overwrite': true });
 
@@ -33,7 +33,7 @@ downloader.download({
     "outFile": "youtube.apk"
 });
 EOF
-node download.mjs
+node download.js
 
 echo "Patching YouTube APK..."
 cat <<EOF >options.json
