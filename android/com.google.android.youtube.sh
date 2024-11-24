@@ -7,7 +7,9 @@ REVANCED_CLI_VERSION="4.6.0"
 REVANCED_PATCHES_VERSION="4.6.0"
 REVANCED_INTEGRATIONS_VERSION="1.7.0"
 
-YOUTUBE_VERSION="19.09.37"
+APKMIRROR_ORG="google-inc"
+APKMIRROR_ID="youtube"
+APKMIRROR_VERSION="19.09.37"
 
 ################################################################################
 
@@ -19,23 +21,23 @@ curl -Lo revanced-patches.jar \
 curl -Lo revanced-integrations.jar \
      "https://github.com/ReVanced/revanced-integrations/releases/download/v${REVANCED_INTEGRATIONS_VERSION}/revanced-integrations-${REVANCED_INTEGRATIONS_VERSION}.apk"
 
-echo "Downloading official YouTube APK..."
+echo "Downloading original APK..."
 npm install apkmirror-downloader
 cat <<EOF >download.js
-const { APKMirrorDownloader } = import('apkmirror-downloader');
+import('apkmirror-downloader').then(({ APKMirrorDownloader }) => {
+    const downloader = new APKMirrorDownloader({ 'overwrite': true });
 
-const downloader = new APKMirrorDownloader({ 'overwrite': true });
-
-downloader.download({
-    "org": "google-inc",
-    "id": "youtube",
-    "version": "${YOUTUBE_VERSION}",
-    "outFile": "youtube.apk"
+    downloader.download({
+        "org": "${APKMIRROR_ORG}",
+        "id": "${APKMIRROR_ID}",
+        "version": "${APKMIRROR_VERSION}",
+        "outFile": "original.apk"
+    });
 });
 EOF
 node download.js
 
-echo "Patching YouTube APK..."
+echo "Patching APK..."
 cat <<EOF >options.json
 [
     {
@@ -76,6 +78,6 @@ java -jar revanced-cli.jar patch \
      --include "Return YouTube Dislike" \
      --include "Downloads" \
      --include "Enable debugging" \
-     youtube.apk
+     original.apk
 
-mv youtube-patched.apk com.google.android.youtube.apk
+mv original-patched.apk com.google.android.youtube.apk

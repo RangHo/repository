@@ -7,7 +7,9 @@ REVANCED_CLI_VERSION="4.6.0"
 REVANCED_PATCHES_VERSION="4.6.0"
 REVANCED_INTEGRATIONS_VERSION="1.7.0"
 
-PIXIV_VERSION="6.103.0"
+APKMIRROR_ORG="pixiv-inc"
+APKMIRROR_ID="pixiv"
+APKMIRROR_VERSION="6.103.0"
 
 ################################################################################
 
@@ -19,23 +21,23 @@ curl -Lo revanced-patches.jar \
 curl -Lo revanced-integrations.jar \
      "https://github.com/ReVanced/revanced-integrations/releases/download/v${REVANCED_INTEGRATIONS_VERSION}/revanced-integrations-${REVANCED_INTEGRATIONS_VERSION}.apk"
 
-echo "Downloading official Pixiv APK..."
+echo "Downloading original APK..."
 npm install apkmirror-downloader
 cat <<EOF >download.js
-const { APKMirrorDownloader } = import('apkmirror-downloader');
+import('apkmirror-downloader').then(({ APKMirrorDownloader }) => {
+    const downloader = new APKMirrorDownloader({ 'overwrite': true });
 
-const downloader = new APKMirrorDownloader({ 'overwrite': true });
-
-downloader.download({
-    "org": "pixiv-inc",
-    "id": "pixiv",
-    "version": "${PIXIV_VERSION}",
-    "outFile": "pixiv.apk"
+    downloader.download({
+        "org": "${APKMIRROR_ORG}",
+        "id": "${APKMIRROR_ID}",
+        "version": "${APKMIRROR_VERSION}",
+        "outFile": "original.apk"
+    });
 });
 EOF
 node download.js
 
-echo "Patching Pixiv APK..."
+echo "Patching APK..."
 cat <<EOF >options.json
 [
     {
@@ -53,6 +55,6 @@ java -jar revanced-cli.jar patch \
      --options options.json \
      --include "Change package name" \
      --include "Hide ads" \
-     pixiv.apk
+     original.apk
 
-mv pixiv-patched.apk jp.pxv.android.apk
+mv original-patched.apk jp.pxv.android.apk
