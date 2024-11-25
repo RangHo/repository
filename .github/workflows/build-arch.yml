@@ -47,6 +47,20 @@ jobs:
         with:
           tool-cache: true
 
+      - name: Add personal repository
+        run: |
+          cat <<EOF | sudo tee -a /etc/pacman.conf
+          [rangho]
+          Server = https://by.rangho.dev/repository/arch
+          EOF
+          wget -O rangho-repository.asc https://by.rangho.dev/repository/public.asc
+          sudo pacman-key --add rangho-repository.asc
+          sudo pacman-key --finger 5B7BDEC59930AB952EBBDEA60F0C772347B79377
+          sudo pacman-key --lsign-key 5B7BDEC59930AB952EBBDEA60F0C772347B79377
+          sudo pacman-key --list-keys
+          sudo pacman -Sy
+        shell: arch.sh {0}
+
       - name: Build package
         run: |
           cd arch/${{ matrix.package }}
@@ -55,12 +69,6 @@ jobs:
             sudo chown -R $USER ~/.gnupg
             find keys -type f | xargs gpg --import
           fi
-          cat <<EOF | sudo tee -a /etc/pacman.conf
-          [rangho]
-          Server = https://by.rangho.dev/repository/arch
-          EOF
-          curl -sSL https://by.rangho.dev/repository/public.asc > rangho-repository.asc
-          gpg --import ./rangho-repository.asc
           MAKEFLAGS="--jobs=$(nproc)" makepkg -s --noconfirm
         shell: arch.sh {0}
 
