@@ -50,7 +50,7 @@ jobs:
       - name: Add personal repository
         run: |
           cat <<EOF | sudo tee -a /etc/pacman.conf
-          [rangho]
+          [rangho-repository]
           Server = https://by.rangho.dev/repository/arch
           EOF
           curl -sSL https://by.rangho.dev/repository/public.asc > rangho-repository.asc
