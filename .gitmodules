@@ -10,3 +10,6 @@
 [submodule "arch/floorp-bin"]
 	path = arch/floorp-bin
 	url = https://aur.archlinux.org/floorp-bin.git
+[submodule "arch/scenefx"]
+	path = arch/scenefx
+	url = https://aur.archlinux.org/scenefx.git
