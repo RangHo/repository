@@ -55,6 +55,11 @@ jobs:
             sudo chown -R $USER ~/.gnupg
             find keys -type f | xargs gpg --import
           fi
+          cat <<EOF >>/etc/pacman.conf
+          [rangho]
+          Server = https://by.rangho.dev/repository/arch
+          EOF
+          curl -sSL https://by.rangho.dev/repository/public.asc | gpg --import
           MAKEFLAGS="--jobs=$(nproc)" makepkg -s --noconfirm
         shell: arch.sh {0}
 
