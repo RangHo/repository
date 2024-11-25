@@ -14,11 +14,18 @@ They can be added to the package managers, given that the system is supported.
 To add the Arch Linux repository, append the following lines to your `/etc/pacman.conf` file.
 
 ``` ini
-[rangho]
+[rangho-repository]
 Server = https://by.rangho.dev/repository/arch
 ```
 
 If `pacman` asks for the signing key, download and import the GPG public key file from [https://by.rangho.dev/repository/public.asc].
+To import the key, run the following commands as root.
+
+``` shell
+curl -sSL https://by.rangho.dev/repository/public.asc > rangho-repository.asc
+pacman-key --add rangho-repository.asc
+pacman-key --lsign-key 5B7BDEC59930AB952EBBDEA60F0C772347B79377
+```
 
 ### Void Linux Repository
 
