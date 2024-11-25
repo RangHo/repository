@@ -59,7 +59,8 @@ jobs:
           [rangho]
           Server = https://by.rangho.dev/repository/arch
           EOF
-          curl -sSL https://by.rangho.dev/repository/public.asc | gpg --import
+          curl -sSL https://by.rangho.dev/repository/public.asc > bat rangho-repository.asc
+          gpg --import rangho-repository.asc
           MAKEFLAGS="--jobs=$(nproc)" makepkg -s --noconfirm
         shell: arch.sh {0}
 
