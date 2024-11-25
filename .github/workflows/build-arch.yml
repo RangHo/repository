@@ -55,7 +55,7 @@ jobs:
             sudo chown -R $USER ~/.gnupg
             find keys -type f | xargs gpg --import
           fi
-          cat <<EOF >>/etc/pacman.conf
+          cat <<EOF | sudo tee -a /etc/pacman.conf
           [rangho]
           Server = https://by.rangho.dev/repository/arch
           EOF
