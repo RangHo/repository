@@ -13,3 +13,6 @@
 [submodule "arch/swayfx"]
 	path = arch/swayfx
 	url = https://aur.archlinux.org/swayfx.git
+[submodule "arch/scenefx"]
+	path = arch/scenefx
+	url = https://aur.archlinux.org/scenefx.git
