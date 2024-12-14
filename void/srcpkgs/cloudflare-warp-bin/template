@@ -1,6 +1,6 @@
 # Template file for 'cloudflare-warp-bin'
 pkgname=cloudflare-warp-bin
-version=2024.2.62
+version=2024.11.309
 revision=1
 archs="x86_64"
 create_wrksrc=yes
@@ -8,8 +8,8 @@ short_desc="Cloudflare WARP client"
 maintainer="RangHo Lee <hello@rangho.me>"
 license="custom:Proprietary"
 homepage="https://one.one.one.one/"
-distfiles="https://pkg.cloudflareclient.com/pool/bookworm/main/c/cloudflare-warp/cloudflare-warp_${version}-1_amd64.deb"
-checksum=f9ece82b7fe8e3dd9382fcc8fe23591cf65b0382e0267bb216d750ad107aeeff
+distfiles="https://pkg.cloudflareclient.com/pool/noble/main/c/cloudflare-warp/cloudflare-warp_${version}.0_amd64.deb"
+checksum=4c7c57113cb2d3cac19af821adcf07210d9c0522de35597c4a40f8dc2558fed1
 nostrip=yes
 
 post_extract() {
