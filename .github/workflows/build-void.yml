@@ -40,7 +40,7 @@ jobs:
         run: |
           xbps-install -Syu || xbps-install -yu
           xbps-install -yu
-          xbps-install base-container-full base-devel
+          xbps-install tar
 
       - name: Checkout void-packages repository
         uses: actions/checkout@v4
