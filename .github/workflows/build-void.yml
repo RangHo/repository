@@ -57,10 +57,13 @@ jobs:
         run: |
           cat rangho-packages/void/common/shlibs >> void-packages/common/shlibs
           cp -r rangho-packages/void/srcpkgs/* void-packages/srcpkgs/
-          echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
-          echo XBPS_CHROOT_CMD=ethereal >> etc/conf
-          echo XBPS_ALLOW_CHROOT_BREAKOUT=yes >> etc/conf
-          ln -s / masterdir
+          (
+            cd void-packages
+            echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
+            echo XBPS_CHROOT_CMD=ethereal >> etc/conf
+            echo XBPS_ALLOW_CHROOT_BREAKOUT=yes >> etc/conf
+            ln -s / masterdir
+          )
 
       - name: Build package
         id: build-package
