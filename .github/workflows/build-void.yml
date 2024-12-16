@@ -32,17 +32,17 @@ jobs:
       - init
     strategy:
       matrix: ${{ fromJson(needs.init.outputs.matrix) }}
+    container:
+      image: 'ghcr.io/void-linux/void-buildroot-musl:20240526R1'
     env:
       XBPS_ARCH: x86_64
       XBPS_TARGET_ARCH: x86_64
 
     steps:
-      - name: Install latest version of xbps
+      - name: Prepare container
         run: |
-          curl -L https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz -o xbps.tar.xz
-          tar -xJvf xbps.tar.xz
-          rm xbps.tar.xz
-          echo "$(pwd)/usr/bin" >> $GITHUB_PATH
+          xbps-install -Syu || xbps-install -yu
+          xbps-install -yu
 
       - name: Checkout void-packages repository
         uses: actions/checkout@v4
