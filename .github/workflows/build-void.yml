@@ -35,8 +35,10 @@ jobs:
     container:
       image: 'ghcr.io/void-linux/void-buildroot-musl:20240526R1'
     env:
-      XBPS_ARCH: x86_64
-      XBPS_TARGET_ARCH: x86_64
+      XBPS_MACHINE: x86_64
+      XBPS_LIBC: musl
+      XBPS_TARGET_MACHINE: x86_64
+      XBPS_TARGET_LIBC: glibc
 
     steps:
       - name: Prepare container
