@@ -34,8 +34,6 @@ jobs:
       matrix: ${{ fromJson(needs.init.outputs.matrix) }}
     container:
       image: 'ghcr.io/void-linux/void-buildroot-glibc:latest'
-      volumes:
-        - /__e:/__e
 
     steps:
       - name: Prepare container
