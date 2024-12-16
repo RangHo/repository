@@ -62,6 +62,7 @@ jobs:
             echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
             echo XBPS_CHROOT_CMD=ethereal >> etc/conf
             echo XBPS_ALLOW_CHROOT_BREAKOUT=yes >> etc/conf
+            echo XBPS_MAKEJOBS="$(nproc)"
             ln -s / masterdir
           )
 
@@ -69,7 +70,7 @@ jobs:
         id: build-package
         run: |
           cd void-packages
-          XBPS_MAKEJOBS=$(nproc) ./xbps-src pkg "${{ matrix.package }}"
+          ./xbps-src pkg "${{ matrix.package }}"
           printf "pkgfile=%s-%s_%s.%s.xbps\n" \
             "${{ matrix.package }}" \
             "$(./xbps-src -a x86_64 show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
