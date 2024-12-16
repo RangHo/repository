@@ -32,17 +32,15 @@ jobs:
       - init
     strategy:
       matrix: ${{ fromJson(needs.init.outputs.matrix) }}
-    env:
-      XBPS_ARCH: x86_64
-      XBPS_TARGET_ARCH: x86_64
+    container:
+      image: 'ghcr.io/void-linux/void-buildroot-glibc:latest'
 
     steps:
-      - name: Install latest version of xbps
+      - name: Prepare container
         run: |
-          curl -L https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz -o xbps.tar.xz
-          tar -xJvf xbps.tar.xz
-          rm xbps.tar.xz
-          echo "$(pwd)/usr/bin" >> $GITHUB_PATH
+          xbps-install -Syu || xbps-install -yu
+          xbps-install -yu
+          xbps-install -y tar
 
       - name: Checkout void-packages repository
         uses: actions/checkout@v4
@@ -55,18 +53,24 @@ jobs:
         with:
           path: rangho-packages
 
-      - name: Copy custom package data to void-repository
+      - name: Configure repository
         run: |
           cat rangho-packages/void/common/shlibs >> void-packages/common/shlibs
           cp -r rangho-packages/void/srcpkgs/* void-packages/srcpkgs/
+          (
+            cd void-packages
+            echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
+            echo XBPS_CHROOT_CMD=ethereal >> etc/conf
+            echo XBPS_ALLOW_CHROOT_BREAKOUT=yes >> etc/conf
+            echo XBPS_MAKEJOBS="$(nproc)"
+            ln -s / masterdir
+          )
 
       - name: Build package
         id: build-package
         run: |
           cd void-packages
-          ./xbps-src zap
-          ./xbps-src binary-bootstrap
-          XBPS_MAKEJOBS=$(nproc) ./xbps-src pkg "${{ matrix.package }}"
+          ./xbps-src pkg "${{ matrix.package }}"
           printf "pkgfile=%s-%s_%s.%s.xbps\n" \
             "${{ matrix.package }}" \
             "$(./xbps-src -a x86_64 show "${{ matrix.package }}" | grep 'version' | sed 's/\t//' | cut -d ':' -f 2)" \
