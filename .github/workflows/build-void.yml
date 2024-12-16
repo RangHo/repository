@@ -42,6 +42,7 @@ jobs:
       - name: Prepare container
         run: |
           xbps-install -Syu || xbps-install -yu
+          xbps-install nodejs
           xbps-install -yu
 
       - name: Checkout void-packages repository
