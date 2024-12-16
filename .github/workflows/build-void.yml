@@ -69,8 +69,6 @@ jobs:
         id: build-package
         run: |
           cd void-packages
-          ./xbps-src zap
-          ./xbps-src binary-bootstrap
           XBPS_MAKEJOBS=$(nproc) ./xbps-src pkg "${{ matrix.package }}"
           printf "pkgfile=%s-%s_%s.%s.xbps\n" \
             "${{ matrix.package }}" \
