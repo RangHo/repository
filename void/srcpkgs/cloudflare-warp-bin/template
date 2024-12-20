@@ -1,9 +1,22 @@
 # Template file for 'cloudflare-warp-bin'
 pkgname=cloudflare-warp-bin
 version=2024.11.309
-revision=1
+revision=2
 archs="x86_64"
 create_wrksrc=yes
+depends="
+    cairo
+    dbus
+    libgc
+    gdk-pixbuf
+    glib
+    gtk+3
+    hicolor-icon-theme
+    nftables
+    nspr
+    nss
+    pango
+"
 short_desc="Cloudflare WARP client"
 maintainer="RangHo Lee <hello@rangho.me>"
 license="custom:Proprietary"
