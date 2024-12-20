@@ -14,7 +14,6 @@ jobs:
     name: Deploy everything to Netlify
     if: github.ref == 'refs/heads/main'
     needs:
-      - build-void
       - build-android
     uses: ./.github/workflows/deploy-netlify.yml
     secrets: inherit
