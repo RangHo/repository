@@ -10,11 +10,6 @@ jobs:
     uses: ./.github/workflows/build-android.yml
     secrets: inherit
 
-  build-void:
-    name: Build Void Linux packages
-    uses: ./.github/workflows/build-void.yml
-    secrets: inherit
-
   deploy:
     name: Deploy everything to Netlify
     if: github.ref == 'refs/heads/main'
