@@ -7,7 +7,7 @@ create_wrksrc=yes
 depends="
     cairo
     dbus
-    libgc
+    libgcc
     gdk-pixbuf
     glib
     gtk+3
