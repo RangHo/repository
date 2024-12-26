@@ -56,13 +56,18 @@ jobs:
       - name: Configure repository
         run: |
           cat rangho-packages/void/common/shlibs >> void-packages/common/shlibs
-          cp -r rangho-packages/void/srcpkgs/* void-packages/srcpkgs/
+          for pkg in rangho-packages/void/srcpkgs/*; do
+            if [ -e "void-packages/srcpkgs/$(basename $pkg)" ]; then
+              rm -rf "void-packages/srcpkgs/$(basename $pkg)"
+            fi
+            cp -r $pkg void-packages/srcpkgs/
+          done
           (
             cd void-packages
             echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
             echo XBPS_CHROOT_CMD=ethereal >> etc/conf
             echo XBPS_ALLOW_CHROOT_BREAKOUT=yes >> etc/conf
-            echo XBPS_MAKEJOBS="$(nproc)"
+            echo XBPS_MAKEJOBS="$(nproc)" >> etc/conf
             ln -s / masterdir
           )
 
