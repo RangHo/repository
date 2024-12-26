@@ -14,6 +14,7 @@ makedepends="
     glib-devel
     gtest-devel
     gtk+3-devel
+    libnotify-devel
     openssl-devel
     libportal-devel
     pugixml-devel
