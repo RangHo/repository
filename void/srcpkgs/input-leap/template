@@ -3,7 +3,7 @@ pkgname=input-leap
 version=3.0.2
 revision=1
 build_style=cmake
-configure_args="-DINPUTLEAP_BUILD_EXTERNAL_GTEST=ON INPUTLEAP_BUILD_LIBEI=ON"
+configure_args="-DINPUTLEAP_BUILD_EXTERNAL_GTEST=ON -DINPUTLEAP_BUILD_LIBEI=ON"
 hostmakedepends="
     pkg-config
     cmake
