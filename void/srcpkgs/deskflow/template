@@ -1,6 +1,6 @@
 # Template file for 'deskflow'
 pkgname=deskflow
-version=1.17.2
+version=1.18.0
 revision=1
 build_style=cmake
 hostmakedepends="
@@ -28,4 +28,4 @@ maintainer="RangHo Lee <hello@rangho.me>"
 license="GPL-2.0-only"
 homepage="https://github.com/deskflow/deskflow"
 distfiles="https://github.com/deskflow/deskflow/archive/refs/tags/v${version}.tar.gz"
-checksum=3358ae3cea42f55bd0508832a69229ba0b08bdcceb1d00acc9dc881f177eb57c
+checksum=bea1bedcdbfee85f4983cf58a491dcfbcec6dff669a57af80e421602336c446b
