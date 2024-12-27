@@ -36,9 +36,13 @@ homepage="https://github.com/input-leap/input-leap"
 _gulrak-filesystem=1.5.10
 distfiles="
     https://github.com/input-leap/input-leap/archive/refs/tags/v${version}.tar.gz
-    https://github.com/gulrak/filesystem/archive/refs/tags/v${_gulrak-filesystem}.tar.gz
+    https://github.com/gulrak/filesystem/archive/refs/tags/v${_gulrak-filesystem}.tar.gz>gulrak-filesystem.tar.gz
 "
 checksum="
     309b2f52282baef57658454dd7afd50c164bf9f2a0f776dbcce98da5bc482e0b
     9b96a024679807879fdfb30e46e8e461293666aeeee5fbf7f5af75aeacdfea29
 "
+
+post_extract() {
+    vsrcextract -C ext/gulrak-filesystem gulrak-filesystem.tar.gz
+}
