@@ -33,10 +33,10 @@ short_desc="Open-source KVM software"
 maintainer="RangHo Lee <hello@rangho.me>"
 license="GPL-2.0-only"
 homepage="https://github.com/input-leap/input-leap"
-_gulrak-filesystem=1.5.10
+_gulrak_filesystem=1.5.10
 distfiles="
     https://github.com/input-leap/input-leap/archive/refs/tags/v${version}.tar.gz
-    https://github.com/gulrak/filesystem/archive/refs/tags/v${_gulrak-filesystem}.tar.gz>gulrak-filesystem.tar.gz
+    https://github.com/gulrak/filesystem/archive/refs/tags/v${_gulrak_filesystem}.tar.gz>gulrak-filesystem.tar.gz
 "
 checksum="
     309b2f52282baef57658454dd7afd50c164bf9f2a0f776dbcce98da5bc482e0b
