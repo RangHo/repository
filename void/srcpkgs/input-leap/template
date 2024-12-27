@@ -1,0 +1,44 @@
+# Template file for 'input-leap'
+pkgname=input-leap
+version=3.0.2
+revision=1
+build_style=cmake
+configure_args="-DINPUTLEAP_BUILD_EXTERNAL_GTEST=ON INPUTLEAP_BUILD_LIBEI=ON"
+hostmakedepends="
+    pkg-config
+    cmake
+    ninja
+"
+makedepends="
+    avahi-compat-libs-devel
+    libei-devel
+    glib-devel
+    gtest-devel
+    Ice-devel
+    openssl-devel
+    qt6-base-devel
+    qt6-tools-devel
+    libportal-devel
+    libSM-devel
+    libXdmcp-devel
+    libXext-devel
+    libXi-devel
+    libXinerama-devel
+    libxkbcommon-devel
+    xorg-server-devel
+    libXrandr-devel
+    libXtst-devel
+"
+short_desc="Open-source KVM software"
+maintainer="RangHo Lee <hello@rangho.me>"
+license="GPL-2.0-only"
+homepage="https://github.com/input-leap/input-leap"
+_gulrak-filesystem=1.5.10
+distfiles="
+    https://github.com/input-leap/input-leap/archive/refs/tags/v${version}.tar.gz
+    https://github.com/gulrak/filesystem/archive/refs/tags/v${_gulrak-filesystem}.tar.gz
+"
+checksum="
+    309b2f52282baef57658454dd7afd50c164bf9f2a0f776dbcce98da5bc482e0b
+    9b96a024679807879fdfb30e46e8e461293666aeeee5fbf7f5af75aeacdfea29
+"
