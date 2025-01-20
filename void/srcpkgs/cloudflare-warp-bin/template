@@ -1,7 +1,7 @@
 # Template file for 'cloudflare-warp-bin'
 pkgname=cloudflare-warp-bin
-version=2024.11.309
-revision=2
+version=2024.12.554
+revision=1
 archs="x86_64"
 create_wrksrc=yes
 depends="cairo dbus libgcc gdk-pixbuf glib gtk+3 hicolor-icon-theme nftables
@@ -11,7 +11,7 @@ maintainer="RangHo Lee <hello@rangho.me>"
 license="custom:Proprietary"
 homepage="https://one.one.one.one/"
 distfiles="https://pkg.cloudflareclient.com/pool/noble/main/c/cloudflare-warp/cloudflare-warp_${version}.0_amd64.deb"
-checksum=4c7c57113cb2d3cac19af821adcf07210d9c0522de35597c4a40f8dc2558fed1
+checksum=f05303554a006089d7549e66c293e953110200df2c69f8877ad334dc62539938
 nostrip=yes
 
 post_extract() {
