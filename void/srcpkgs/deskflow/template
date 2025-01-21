@@ -3,26 +3,10 @@ pkgname=deskflow
 version=1.17.2
 revision=1
 build_style=cmake
-hostmakedepends="
-    pkg-config
-    cmake
-    ninja
-"
-makedepends="
-    libei-devel
-    gdk-pixbuf-devel
-    glib-devel
-    gtest-devel
-    gtk+3-devel
-    libnotify-devel
-    openssl-devel
-    libportal-devel
-    pugixml-devel
-    qt6-base-devel
-    qt6-tools-devel
-    libxkbfile-devel
-    libXtst-devel
-"
+hostmakedepends="pkg-config cmake ninja"
+makedepends="libei-devel gdk-pixbuf-devel glib-devel gtest-devel gtk+3-devel
+	libnotify-devel openssl-devel libportal-devel pugixml-devel qt6-base-devel
+	qt6-tools-devel libxkbfile-devel libXtst-devel"
 short_desc="Open-source KVM software"
 maintainer="RangHo Lee <hello@rangho.me>"
 license="GPL-2.0-only"

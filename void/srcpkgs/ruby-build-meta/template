@@ -3,18 +3,8 @@ pkgname=ruby-build-meta
 version=0.0.0
 revision=1
 build_style=meta
-depends="
-    base-devel
-    zlib-devel
-    readline-devel
-    libffi-devel
-    openssl-devel
-    gdbm-devel
-    libyaml-devel
-    pango-devel
-    ncurses-devel
-    bzip2-devel
-"
+depends="base-devel zlib-devel readline-devel libffi-devel openssl-devel
+	gdbm-devel libyaml-devel pango-devel ncurses-devel bzip2-devel"
 short_desc="Meta package to install everything needed for ruby-build script"
 maintainer="RangHo Lee <hello@rangho.me>"
 license="Public Domain"

@@ -14,24 +14,24 @@ checksum=02d77955362e849ae66eca9164c99d4a1ff37c848c6577089d33bdd02740198a
 nostrip=yes
 
 do_install() {
-    # Install all files
-    vmkdir /opt
-    vcopy ${wrksrc}/floorp /opt
+	# Install all files
+	vmkdir /opt
+	vcopy ${wrksrc}/floorp /opt
 
-    # Install binaries
-    vbin ${FILESDIR}/floorp
-    vbin ${FILESDIR}/floorp-wayland
+	# Install binaries
+	vbin ${FILESDIR}/floorp
+	vbin ${FILESDIR}/floorp-wayland
 
-    # Install desktop file
-    vinstall ${FILESDIR}/floorp.desktop 644 usr/share/applications
+	# Install desktop file
+	vinstall ${FILESDIR}/floorp.desktop 644 usr/share/applications
 
-    # Generate and install icons
-    for i in 32 64 128 256 512; do
+	# Generate and install icons
+	for i in 32 64 128 256 512; do
 	vmkdir "/usr/share/icons/hicolor/${i}x${i}/apps"
 	convert -resize ${i}x${i} ${FILESDIR}/floorp.png ${DESTDIR}/usr/share/icons/hicolor/${i}x${i}/apps/floorp.png
-    done
+	done
 
-    # Disable automatic updates
-    vmkdir /opt/floorp/distribution
-    vinstall ${FILESDIR}/policies.json 644 /opt/floorp/distribution
+	# Disable automatic updates
+	vmkdir /opt/floorp/distribution
+	vinstall ${FILESDIR}/policies.json 644 /opt/floorp/distribution
 }

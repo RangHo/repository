@@ -3,16 +3,8 @@ pkgname=xmonad-build-meta
 version=0.0.0
 revision=1
 build_style=meta
-depends="
-    ncurses-libtinfo-libs
-    ncurses-libtinfo-devel
-    libX11-devel
-    libXft-devel
-    libXinerama-devel
-    libXrandr-devel
-    libXScrnSaver-devel
-    pkg-config
-"
+depends="ncurses-libtinfo-libs ncurses-libtinfo-devel libX11-devel libXft-devel
+	libXinerama-devel libXrandr-devel libXScrnSaver-devel pkg-config"
 short_desc="Meta package to install everything needed for building XMonad"
 maintainer="RangHo Lee <hello@rangho.me>"
 license="Public Domain"
