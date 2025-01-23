@@ -16,3 +16,6 @@
 [submodule "arch/scenefx"]
 	path = arch/scenefx
 	url = https://aur.archlinux.org/scenefx.git
+[submodule "arch/cloudflare-warp-bin"]
+	path = arch/cloudflare-warp-bin
+	url = https://aur.archlinux.org/cloudflare-warp-bin.git
