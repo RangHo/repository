@@ -92,6 +92,7 @@ jobs:
   register:
     name: Register all packages
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     needs:
       - build
     env:
