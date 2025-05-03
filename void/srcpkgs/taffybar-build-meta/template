@@ -1,0 +1,11 @@
+# Template file for 'taffybar-build-meta'
+pkgname=taffybar-build-meta
+version=0.0.0
+revision=1
+build_style=meta
+depends="libgirepository-devel libwebkit2gtk41-devel gtksourceview-devel
+    libdbusmenu-gtk3-devel pkg-config"
+short_desc="Meta package to install everything needed for building Taffybar"
+maintainer="RangHo Lee <hello@rangho.me>"
+license="Public Domain"
+homepage="https://github.com/taffybar/taffybar/blob/master/doc/install.md"
