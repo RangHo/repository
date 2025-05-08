@@ -42,16 +42,27 @@ jobs:
       - name: Set up Arch Linux environment
         uses: RangHo/setup-arch@v1
 
-      - name: Add personal repository
+      - name: Build dependent packages
         run: |
-          cat <<EOF | sudo tee -a /etc/pacman.conf
-          [rangho-repository]
-          Server = https://by.rangho.dev/repository/arch
-          EOF
-          curl -sSL https://by.rangho.dev/repository/public.asc > rangho-repository.asc
-          sudo pacman-key --add rangho-repository.asc
-          sudo pacman-key --lsign-key 5B7BDEC59930AB952EBBDEA60F0C772347B79377
           sudo pacman -Sy
+          declare -A provides_map
+          cd arch
+          for d in $(find . -mindepth 1 -type d); do
+            unset provides
+            source $d/PKGBUILD
+            for p in ${provides[@]}; do
+              provides_map["$p"]="$d"
+            done
+          done
+          unset depends
+          source ${{ matrix.package }}/PKGBUILD
+          for d in ${depends[@]}; do
+            if [[ -v provides_map["$d"] ]]; then
+              MAKEFLAGS="--jobs=$(nproc)" makepkg -si -D ${provides_map["$d"]} --noconfirm
+            elif [ -d "$d" ]; then
+              MAKEFLAGS="--jobs=$(nproc)" makepkg -si -D "$d" --noconfirm
+            fi
+          done
         shell: arch.sh {0}
 
       - name: Build package
