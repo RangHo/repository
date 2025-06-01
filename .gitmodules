@@ -16,3 +16,6 @@
 [submodule "arch/cloudflare-warp-bin"]
 	path = arch/cloudflare-warp-bin
 	url = https://aur.archlinux.org/cloudflare-warp-bin.git
+[submodule "void/srcpkgs/lightback"]
+	path = void/srcpkgs/lightback
+	url = https://github.com/RangHo/lightback
