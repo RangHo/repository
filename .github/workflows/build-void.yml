@@ -40,7 +40,7 @@ jobs:
         run: |
           xbps-install -Syu || xbps-install -yu
           xbps-install -yu
-          xbps-install -y tar
+          xbps-install -y git tar
 
       - name: Checkout void-packages repository
         uses: actions/checkout@v4
