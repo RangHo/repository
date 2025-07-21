@@ -2,7 +2,7 @@
 pkgname=haskell-build-meta
 version=0.0.0
 revision=1
-build_style=meta
+metapackage=yes
 depends="base-devel gmp-devel ncurses-devel libnuma-devel"
 short_desc="Meta package to install everything needed for building Haskell"
 maintainer="RangHo Lee <hello@rangho.me>"

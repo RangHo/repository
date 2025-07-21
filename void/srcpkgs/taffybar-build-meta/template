@@ -2,7 +2,7 @@
 pkgname=taffybar-build-meta
 version=0.0.0
 revision=1
-build_style=meta
+metapackage=yes
 depends="libgirepository-devel libwebkit2gtk41-devel gtksourceview-devel
     libdbusmenu-gtk3-devel pkg-config"
 short_desc="Meta package to install everything needed for building Taffybar"

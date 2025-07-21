@@ -2,7 +2,7 @@
 pkgname=python-build-meta
 version=0.0.0
 revision=1
-build_style=meta
+metapackage=yes
 depends="base-devel libffi-devel readline-devel gdbm-devel openssl-devel
 	expat-devel sqlite-devel bzip2-devel zlib-devel ca-certificates
 	liblzma-devel tk-devel"

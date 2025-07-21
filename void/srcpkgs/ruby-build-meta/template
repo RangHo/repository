@@ -2,7 +2,7 @@
 pkgname=ruby-build-meta
 version=0.0.0
 revision=1
-build_style=meta
+metapackage=yes
 depends="base-devel zlib-devel readline-devel libffi-devel openssl-devel
 	gdbm-devel libyaml-devel pango-devel ncurses-devel bzip2-devel"
 short_desc="Meta package to install everything needed for ruby-build script"

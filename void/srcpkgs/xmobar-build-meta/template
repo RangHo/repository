@@ -2,7 +2,7 @@
 pkgname=xmobar-build-meta
 version=0.0.0
 revision=1
-build_style=meta
+metapackage=yes
 depends="alsa-lib-devel pango-devel wireless_tools-devel libX11-devel
 	libXft-devel libXinerama-devel libxml2-devel libXpm-devel libXrandr-devel
 	libXScrnSaver-devel pkg-config"
