@@ -19,3 +19,6 @@
 [submodule "void/srcpkgs/lightback"]
 	path = void/srcpkgs/lightback
 	url = https://github.com/RangHo/lightback
+[submodule "arch/modprobed-db"]
+	path = arch/modprobed-db
+	url = https://aur.archlinux.org/modprobed-db.git
