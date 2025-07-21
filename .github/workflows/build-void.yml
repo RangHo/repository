@@ -39,7 +39,7 @@ jobs:
       - name: Prepare container
         run: |
           xbps-install -Sy
-          xbps-install -u xbps
+          xbps-install -yu xbps
           xbps-install -yu
           xbps-install -y git tar
 
