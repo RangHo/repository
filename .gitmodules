@@ -16,3 +16,6 @@
 [submodule "arch/modprobed-db"]
 	path = arch/modprobed-db
 	url = https://aur.archlinux.org/modprobed-db.git
+[submodule "arch/slack-desktop"]
+	path = arch/slack-desktop
+	url = https://aur.archlinux.org/slack-desktop.git
