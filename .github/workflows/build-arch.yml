@@ -50,6 +50,32 @@ jobs:
         with:
           submodules: true
 
+      - name: Import necessary GPG keys
+        run: |
+          cd arch
+          find . -wholename "*/keys/*" -type f | xargs gpg --import || echo "No GPG keys to import."
+
+      - name: Build dependent packages
+        run: |
+          declare -A provides_map
+          cd arch
+          for d in $(find . -mindepth 1 -type d); do
+            unset provides
+            source $d/PKGBUILD
+            for p in ${provides[@]}; do
+              provides_map["$p"]="$d"
+            done
+          done
+          unset depends
+          source ${{ matrix.package }}/PKGBUILD
+          for d in ${depends[@]}; do
+            if [[ -v provides_map["$d"] ]]; then
+              MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -si -D ${provides_map[$d]}"
+            elif [ -d "$d" ]; then
+              MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -si -D $d"
+            fi
+          done
+
       - name: Build package
         run: |
           chown -R builder:builder arch
