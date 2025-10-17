@@ -38,6 +38,7 @@ jobs:
     steps:
       - name: Prepare container
         run: |
+          pacman-key --init
           yes | pacman -Syu
           yes | pacman -S devtools
           useradd -G wheel builder
