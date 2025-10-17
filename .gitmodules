@@ -19,3 +19,6 @@
 [submodule "arch/slack-desktop"]
 	path = arch/slack-desktop
 	url = https://aur.archlinux.org/slack-desktop.git
+[submodule "arch/soteria"]
+	path = arch/soteria
+	url = https://github.com/RangHo/soteria-arch
