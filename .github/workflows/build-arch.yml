@@ -40,6 +40,8 @@ jobs:
         run: |
           yes | pacman -Syu
           yes | pacman -S devtools
+          useradd -G wheel builder
+          echo "%builder ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder.conf
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -50,11 +52,9 @@ jobs:
         run: |
           cd arch/${{ matrix.package }}
           if [ -d keys ]; then
-            sudo gpgconf --kill dirmngr
-            sudo chown -R $USER ~/.gnupg
             find keys -type f | xargs gpg --import
           fi
-          MAKEFLAGS="--jobs=$(nproc)" su nobody -c "yes | makepkg -s"
+          MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -s"
 
       - name: Uplaod package as artifact
         uses: actions/upload-artifact@v4
