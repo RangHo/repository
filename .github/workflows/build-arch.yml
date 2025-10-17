@@ -42,7 +42,8 @@ jobs:
           yes | pacman -Syu
           yes | pacman -S devtools
           useradd -G wheel builder
-          echo "%builder ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder.conf
+          echo 'Defaults lecture="never"' >> /etc/sudoers
+          echo '%wheel ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
 
       - name: Checkout repository
         uses: actions/checkout@v4
