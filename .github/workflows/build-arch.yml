@@ -36,15 +36,15 @@ jobs:
       image: 'docker.io/library/archlinux:base-devel'
 
     steps:
+      - name: Prepare container
+        run: |
+          yes | pacman -Syu
+          yes | pacman -S devtools
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: true
-
-      - name: Prepare container
-        run: |
-          yes | pacman -Syu
-          yes | pacman -S devtools jq
 
       - name: Build package
         run: |
