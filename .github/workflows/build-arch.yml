@@ -32,6 +32,8 @@ jobs:
       - init
     strategy:
       matrix: ${{ fromJson(needs.init.outputs.matrix) }}
+    container:
+      image: 'docker.io/library/archlinux:base-devel'
 
     steps:
       - name: Checkout repository
@@ -39,31 +41,10 @@ jobs:
         with:
           submodules: true
 
-      - name: Set up Arch Linux environment
-        uses: RangHo/setup-arch@v1
-
-      - name: Build dependent packages
+      - name: Prepare container
         run: |
-          sudo pacman -Sy
-          declare -A provides_map
-          cd arch
-          for d in $(find . -mindepth 1 -type d); do
-            unset provides
-            source $d/PKGBUILD
-            for p in ${provides[@]}; do
-              provides_map["$p"]="$d"
-            done
-          done
-          unset depends
-          source ${{ matrix.package }}/PKGBUILD
-          for d in ${depends[@]}; do
-            if [[ -v provides_map["$d"] ]]; then
-              MAKEFLAGS="--jobs=$(nproc)" makepkg -si -D ${provides_map["$d"]} --noconfirm
-            elif [ -d "$d" ]; then
-              MAKEFLAGS="--jobs=$(nproc)" makepkg -si -D "$d" --noconfirm
-            fi
-          done
-        shell: arch.sh {0}
+          yes | pacman -Syu
+          yes | pacman -S devtools jq
 
       - name: Build package
         run: |
@@ -73,8 +54,7 @@ jobs:
             sudo chown -R $USER ~/.gnupg
             find keys -type f | xargs gpg --import
           fi
-          MAKEFLAGS="--jobs=$(nproc)" makepkg -s --noconfirm
-        shell: arch.sh {0}
+          MAKEFLAGS="--jobs=$(nproc)" su nobody -c "yes | makepkg -s"
 
       - name: Uplaod package as artifact
         uses: actions/upload-artifact@v4
@@ -82,75 +62,77 @@ jobs:
           name: arch-${{ matrix.package }}
           path: arch/${{ matrix.package }}/*.pkg.tar.zst
 
-  register:
-    name: Register all packages
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    needs:
-      - build
+  # register:
+  #   name: Register all packages
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+  #   needs:
+  #     - build
+  #   container:
+  #     image: 'docker.io/library/archlinux:base-devel'
 
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-          pattern: arch-*
+  #   steps:
+  #     - name: Download all artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         path: artifacts
+  #         pattern: arch-*
 
-      - name: Copy all packages into repository directory
-        run: |
-          mkdir ./arch
-          cp ./artifacts/*/*.pkg.tar.zst ./arch
+  #     - name: Copy all packages into repository directory
+  #       run: |
+  #         mkdir ./arch
+  #         cp ./artifacts/*/*.pkg.tar.zst ./arch
 
-      - name: Set up Arch Linux environment
-        uses: RangHo/setup-arch@v1
+  #     - name: Set up Arch Linux environment
+  #       uses: RangHo/setup-arch@v1
 
-      - name: Add all packages to the repository
-        run: |
-          repo-add \
-            ./arch/rangho-repository.db.tar.zst ./arch/*.pkg.tar.zst
-        shell: arch.sh {0}
+  #     - name: Add all packages to the repository
+  #       run: |
+  #         repo-add \
+  #           ./arch/rangho-repository.db.tar.zst ./arch/*.pkg.tar.zst
+  #       shell: arch.sh {0}
 
-      - name: Upload the resulting repository as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: arch-unsigned
-          path: arch
+  #     - name: Upload the resulting repository as artifact
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: arch-unsigned
+  #         path: arch
 
-  sign:
-    name: Sign the repository
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    needs:
-      - register
+  # sign:
+  #   name: Sign the repository
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+  #   needs:
+  #     - register
 
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: arch-unsigned
+  #   steps:
+  #     - name: Download all artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         pattern: arch-unsigned
 
-      - name: Import GPG keys
-        uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          gpg_private_key: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PRIVATE }}
-          passphrase: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }}
+  #     - name: Import GPG keys
+  #       uses: crazy-max/ghaction-import-gpg@v6
+  #       with:
+  #         gpg_private_key: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PRIVATE }}
+  #         passphrase: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }}
 
-      - name: Sign all files in the repository
-        run: |
-          cd arch-unsigned
-          for pkg in *; do
-            echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }} \
-              | gpg \
-                --detach-sign \
-                --no-armor \
-                --default-key 5B7BDEC59930AB952EBBDEA60F0C772347B79377 \
-                --pinentry-mode loopback \
-                --passphrase-fd 0 \
-                $pkg
-          done
+  #     - name: Sign all files in the repository
+  #       run: |
+  #         cd arch-unsigned
+  #         for pkg in *; do
+  #           echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }} \
+  #             | gpg \
+  #               --detach-sign \
+  #               --no-armor \
+  #               --default-key 5B7BDEC59930AB952EBBDEA60F0C772347B79377 \
+  #               --pinentry-mode loopback \
+  #               --passphrase-fd 0 \
+  #               $pkg
+  #         done
 
-      - name: Upload the resulting repository as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: arch
-          path: arch-unsigned
+  #     - name: Upload the resulting repository as artifact
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: arch
+  #         path: arch-unsigned
