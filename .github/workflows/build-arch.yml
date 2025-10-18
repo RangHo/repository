@@ -18,7 +18,7 @@ jobs:
       - name: Find all Arch Linux packages
         id: find-packages
         run: |
-          find arch -mindepth 1 -maxdepth 1 \
+          find arch -mindepth 1 -maxdepth 1 -type d \
             | sed 's|^arch/||' \
             | jq -R \
             | jq -cs '{ "package": . }' \
@@ -32,19 +32,38 @@ jobs:
       - init
     strategy:
       matrix: ${{ fromJson(needs.init.outputs.matrix) }}
+    container:
+      image: 'docker.io/library/archlinux:base-devel'
 
     steps:
+      - name: Prepare container
+        run: |
+          pacman-key --init
+          yes | pacman -Syu
+          yes | pacman -S devtools
+          useradd -mG wheel builder
+          echo 'Defaults lecture="never"' >> /etc/sudoers
+          echo '%wheel ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: true
 
-      - name: Set up Arch Linux environment
-        uses: RangHo/setup-arch@v1
+      - name: Import necessary GPG keys
+        run: |
+          cd arch
+          for f in $(find . -wholename '*/keys/*' -type f); do
+            su builder -c "gpg --import $f"
+          done
+          for f in $(find . -name '*.keys' -type f); do
+            for u in $(cat $f); do
+              curl -sSL $u | su builder -c "gpg --import -"
+            done
+          done
 
       - name: Build dependent packages
         run: |
-          sudo pacman -Sy
           declare -A provides_map
           cd arch
           for d in $(find . -mindepth 1 -type d); do
@@ -58,23 +77,29 @@ jobs:
           source ${{ matrix.package }}/PKGBUILD
           for d in ${depends[@]}; do
             if [[ -v provides_map["$d"] ]]; then
-              MAKEFLAGS="--jobs=$(nproc)" makepkg -si -D ${provides_map["$d"]} --noconfirm
+              MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -si -D ${provides_map[$d]}"
             elif [ -d "$d" ]; then
-              MAKEFLAGS="--jobs=$(nproc)" makepkg -si -D "$d" --noconfirm
+              MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -si -D $d"
             fi
           done
-        shell: arch.sh {0}
 
       - name: Build package
         run: |
+          chown -R builder:builder arch
           cd arch/${{ matrix.package }}
           if [ -d keys ]; then
-            sudo gpgconf --kill dirmngr
-            sudo chown -R $USER ~/.gnupg
             find keys -type f | xargs gpg --import
           fi
-          MAKEFLAGS="--jobs=$(nproc)" makepkg -s --noconfirm
-        shell: arch.sh {0}
+          MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -s"
+
+      - name: Rename package files
+        run: |
+          cd arch/${{ matrix.package }}
+          for f in *.pkg.tar.zst; do
+            if [ $f != $(echo -n $f | jq -sRr @uri) ]; then
+              mv -v $f $(echo -n $f | jq -sRr @uri)
+            fi
+          done
 
       - name: Uplaod package as artifact
         uses: actions/upload-artifact@v4
@@ -88,8 +113,16 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs:
       - build
+    container:
+      image: 'docker.io/library/archlinux:base-devel'
 
     steps:
+      - name: Prepare container
+        run: |
+          pacman-key --init
+          yes | pacman -Syu
+          yes | pacman -S devtools
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -101,14 +134,28 @@ jobs:
           mkdir ./arch
           cp ./artifacts/*/*.pkg.tar.zst ./arch
 
-      - name: Set up Arch Linux environment
-        uses: RangHo/setup-arch@v1
+      - name: Decode package files
+        run: |
+          cd arch/
+          for f in *.pkg.tar.zst; do
+            if [ $f != $(echo -n $f | jq -sRr @urid) ]; then
+              mv -v $f $(echo -n $f | jq -sRr @urid)
+            fi
+          done
 
       - name: Add all packages to the repository
         run: |
           repo-add \
             ./arch/rangho-repository.db.tar.zst ./arch/*.pkg.tar.zst
-        shell: arch.sh {0}
+
+      - name: Encode package files
+        run: |
+          cd arch/
+          for f in *.pkg.tar.zst; do
+            if [ $f != $(echo -n $f | jq -sRr @uri) ]; then
+              mv -v $f $(echo -n $f | jq -sRr @uri)
+            fi
+          done
 
       - name: Upload the resulting repository as artifact
         uses: actions/upload-artifact@v4
@@ -135,6 +182,15 @@ jobs:
           gpg_private_key: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PRIVATE }}
           passphrase: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }}
 
+      - name: Decode package files
+        run: |
+          cd arch-unsigned
+          for f in *; do
+            if [ $f != $(echo -n $f | jq -sRr @urid) ]; then
+              mv -v $f $(echo -n $f | jq -sRr @urid)
+            fi
+          done
+
       - name: Sign all files in the repository
         run: |
           cd arch-unsigned
@@ -147,6 +203,15 @@ jobs:
                 --pinentry-mode loopback \
                 --passphrase-fd 0 \
                 $pkg
+          done
+
+      - name: Decode package files
+        run: |
+          cd arch-unsigned
+          for f in *; do
+            if [ $f != $(echo -n $f | jq -sRr @uri) ]; then
+              mv -v $f $(echo -n $f | jq -sRr @uri)
+            fi
           done
 
       - name: Upload the resulting repository as artifact
