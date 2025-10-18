@@ -41,7 +41,7 @@ jobs:
           pacman-key --init
           yes | pacman -Syu
           yes | pacman -S devtools
-          useradd -G wheel builder
+          useradd -mG wheel builder
           echo 'Defaults lecture="never"' >> /etc/sudoers
           echo '%wheel ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
 
