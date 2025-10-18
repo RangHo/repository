@@ -16,3 +16,6 @@
 [submodule "arch/modprobed-db"]
 	path = arch/modprobed-db
 	url = https://aur.archlinux.org/modprobed-db.git
+[submodule "arch/spotify"]
+	path = arch/spotify
+	url = https://aur.archlinux.org/spotify.git
