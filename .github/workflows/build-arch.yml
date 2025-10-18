@@ -54,11 +54,11 @@ jobs:
         run: |
           cd arch
           for f in $(find . -wholename '*/keys/*' -type f); do
-            gpg --import $f
+            su builder -c "gpg --import $f"
           done
           for f in $(find . -name '*.keys' -type f); do
             for u in $(cat $f); do
-              curl -sSL $u | gpg --import -
+              curl -sSL $u | su builder -c "gpg --import -"
             done
           done
 
