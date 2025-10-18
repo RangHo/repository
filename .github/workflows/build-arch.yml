@@ -58,7 +58,7 @@ jobs:
           done
           for f in $(find . -name '*.keys' -type f); do
             for u in $(cat $f); do
-              curl -sSL $u | gpg --import $f
+              curl -sSL $u | gpg --import -
             done
           done
 
