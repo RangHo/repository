@@ -18,7 +18,7 @@ jobs:
       - name: Find all Arch Linux packages
         id: find-packages
         run: |
-          find arch -mindepth 1 -maxdepth 1 \
+          find arch -mindepth 1 -maxdepth 1 -type d \
             | sed 's|^arch/||' \
             | jq -R \
             | jq -cs '{ "package": . }' \
