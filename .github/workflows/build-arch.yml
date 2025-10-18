@@ -107,77 +107,115 @@ jobs:
           name: arch-${{ matrix.package }}
           path: arch/${{ matrix.package }}/*.pkg.tar.zst
 
-  # register:
-  #   name: Register all packages
-  #   runs-on: ubuntu-latest
-  #   if: github.ref == 'refs/heads/main'
-  #   needs:
-  #     - build
-  #   container:
-  #     image: 'docker.io/library/archlinux:base-devel'
+  register:
+    name: Register all packages
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - build
+    container:
+      image: 'docker.io/library/archlinux:base-devel'
 
-  #   steps:
-  #     - name: Download all artifacts
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         path: artifacts
-  #         pattern: arch-*
+    steps:
+      - name: Prepare container
+        run: |
+          pacman-key --init
+          yes | pacman -Syu
+          yes | pacman -S devtools
 
-  #     - name: Copy all packages into repository directory
-  #       run: |
-  #         mkdir ./arch
-  #         cp ./artifacts/*/*.pkg.tar.zst ./arch
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: arch-*
 
-  #     - name: Set up Arch Linux environment
-  #       uses: RangHo/setup-arch@v1
+      - name: Copy all packages into repository directory
+        run: |
+          mkdir ./arch
+          cp ./artifacts/*/*.pkg.tar.zst ./arch
 
-  #     - name: Add all packages to the repository
-  #       run: |
-  #         repo-add \
-  #           ./arch/rangho-repository.db.tar.zst ./arch/*.pkg.tar.zst
-  #       shell: arch.sh {0}
+      - name: Decode package files
+        run: |
+          cd arch/
+          for f in *.pkg.tar.zst; do
+            if [ $f != $(echo -n $f | jq -sRr @urid) ]; then
+              mv -v $f $(echo -n $f | jq -sRr @urid)
+            fi
+          done
 
-  #     - name: Upload the resulting repository as artifact
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: arch-unsigned
-  #         path: arch
+      - name: Add all packages to the repository
+        run: |
+          repo-add \
+            ./arch/rangho-repository.db.tar.zst ./arch/*.pkg.tar.zst
 
-  # sign:
-  #   name: Sign the repository
-  #   runs-on: ubuntu-latest
-  #   if: github.ref == 'refs/heads/main'
-  #   needs:
-  #     - register
+      - name: Encode package files
+        run: |
+          cd arch/
+          for f in *.pkg.tar.zst; do
+            if [ $f != $(echo -n $f | jq -sRr @uri) ]; then
+              mv -v $f $(echo -n $f | jq -sRr @uri)
+            fi
+          done
 
-  #   steps:
-  #     - name: Download all artifacts
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         pattern: arch-unsigned
+      - name: Upload the resulting repository as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: arch-unsigned
+          path: arch
 
-  #     - name: Import GPG keys
-  #       uses: crazy-max/ghaction-import-gpg@v6
-  #       with:
-  #         gpg_private_key: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PRIVATE }}
-  #         passphrase: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }}
+  sign:
+    name: Sign the repository
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - register
 
-  #     - name: Sign all files in the repository
-  #       run: |
-  #         cd arch-unsigned
-  #         for pkg in *; do
-  #           echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }} \
-  #             | gpg \
-  #               --detach-sign \
-  #               --no-armor \
-  #               --default-key 5B7BDEC59930AB952EBBDEA60F0C772347B79377 \
-  #               --pinentry-mode loopback \
-  #               --passphrase-fd 0 \
-  #               $pkg
-  #         done
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: arch-unsigned
 
-  #     - name: Upload the resulting repository as artifact
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: arch
-  #         path: arch-unsigned
+      - name: Import GPG keys
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PRIVATE }}
+          passphrase: ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }}
+
+      - name: Decode package files
+        run: |
+          cd arch-unsigned
+          for f in *; do
+            if [ $f != $(echo -n $f | jq -sRr @urid) ]; then
+              mv -v $f $(echo -n $f | jq -sRr @urid)
+            fi
+          done
+
+      - name: Sign all files in the repository
+        run: |
+          cd arch-unsigned
+          for pkg in *; do
+            echo ${{ secrets.RANGHO_REPOSITORY_SIGNING_PGP_PASSWORD }} \
+              | gpg \
+                --detach-sign \
+                --no-armor \
+                --default-key 5B7BDEC59930AB952EBBDEA60F0C772347B79377 \
+                --pinentry-mode loopback \
+                --passphrase-fd 0 \
+                $pkg
+          done
+
+      - name: Decode package files
+        run: |
+          cd arch-unsigned
+          for f in *; do
+            if [ $f != $(echo -n $f | jq -sRr @uri) ]; then
+              mv -v $f $(echo -n $f | jq -sRr @uri)
+            fi
+          done
+
+      - name: Upload the resulting repository as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: arch
+          path: arch-unsigned
