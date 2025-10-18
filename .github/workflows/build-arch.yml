@@ -94,8 +94,11 @@ jobs:
 
       - name: Rename package files
         run: |
+          cd arch/${{ matrix.package }}
           for f in *.pkg.tar.zst; do
-            mv -v $f $(echo $f | jq -sRr '@uri')
+            if [ $f != $(echo $f | jq -sRr @uri ]; then
+              mv -v $f $(echo $f | jq -sRr @uri)
+            fi
           done
 
       - name: Uplaod package as artifact
