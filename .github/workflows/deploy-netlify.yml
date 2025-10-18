@@ -21,8 +21,8 @@ jobs:
       - name: Rename Arch Linux packages
         run: |
           for f in arch/*; do
-            if [ $f != $(echo $f | jq -sRr @urid) ]; then
-              mv -v $f $(echo $f | jq -sRr @urid)
+            if [ $f != $(echo -n $f | jq -sRr @urid) ]; then
+              mv -v $f $(echo -n $f | jq -sRr @urid)
             fi
           done
 
