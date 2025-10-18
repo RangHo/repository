@@ -53,7 +53,14 @@ jobs:
       - name: Import necessary GPG keys
         run: |
           cd arch
-          find . -wholename "*/keys/*" -type f | xargs gpg --import || echo "No GPG keys to import."
+          for f in $(find . -wholename '*/keys/*' -type f); do
+            gpg --import $f
+          done
+          for f in $(find . -name '*.keys' -type f); do
+            for u in $(cat $f); do
+              curl -sSL $u | gpg --import $f
+            done
+          done
 
       - name: Build dependent packages
         run: |
