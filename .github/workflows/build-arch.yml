@@ -96,7 +96,7 @@ jobs:
         run: |
           cd arch/${{ matrix.package }}
           for f in *.pkg.tar.zst; do
-            if [ $f != $(echo $f | jq -sRr @uri ]; then
+            if [ $f != $(echo $f | jq -sRr @uri) ]; then
               mv -v $f $(echo $f | jq -sRr @uri)
             fi
           done
