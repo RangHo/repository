@@ -18,6 +18,14 @@ jobs:
           name: arch
           path: arch
 
+      - name: Rename Arch Linux packages
+        run: |
+          for f in arch/*; do
+            if [ $f != $(echo -n $f | jq -sRr @urid) ]; then
+              mv -v $f $(echo -n $f | jq -sRr @urid)
+            fi
+          done
+
       - name: Download Void Linux artifacts
         uses: actions/download-artifact@v4
         with:
