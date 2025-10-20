@@ -1,0 +1,44 @@
+# Template file for 'ly'
+pkgname=ly
+version=1.0.3
+revision=1
+build_style=zig-build
+makedepends="pam-devel libxcb-devel"
+depends="pam util-linux"
+short_desc="A lightweight TUI (ncurses-like) display manager for Linux and BSD."
+maintainer="RangHo Lee <hello@rangho.me>"
+license="WTFPL-2.0"
+homepage="https://codeberg.org/fairyglade/ly"
+changelog="${homepage}/releases"
+distfiles="${homepage}/archive/v${version}.tar.gz"
+checksum=dde95d08778417e5950d2ad3e7beb11bc564fadaa1534ee107a68101468dc5c0
+conf_files="/etc/ly/config.ini"
+nopie_files=/usr/bin/ly
+
+do_install() {
+  # Ly binary.
+  vbin zig-out/usr/bin/ly
+
+  # Ly configurations.
+  vmkdir etc/ly
+  vcopy res/config.ini etc/ly
+  vcopy res/wsetup.sh etc/ly
+  vcopy res/xsetup.sh etc/ly
+
+  # Ly translation files.
+  vcopy res/lang etc/ly
+
+  # Ly PAM configurations.
+  vmkdir etc/pam.d
+  vinstall res/pam.d/ly 0644 etc/pam.d
+
+  # Ly runit service files.
+  vmkdir etc/sv/ly
+  for f in res/ly-runit-service/*; do
+    vinstall "$f" 0755 etc/sv/ly
+  done
+}
+
+post_install() {
+  vlicense license.md
+}
