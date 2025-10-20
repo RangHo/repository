@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.init.outputs.matrix) }}
     container:
-      image: 'docker.io/library/archlinux:base-devel'
+      image: 'ghcr.io/archlinux/archlinux:base-devel'
 
     steps:
       - name: Prepare container
