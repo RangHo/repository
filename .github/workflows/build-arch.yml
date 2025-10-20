@@ -90,7 +90,7 @@ jobs:
           if [ -d keys ]; then
             find keys -type f | xargs gpg --import
           fi
-          GOFLAGS="-x" MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -s"
+          MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -s"
 
       - name: Rename package files
         run: |

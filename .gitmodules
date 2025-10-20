@@ -25,6 +25,6 @@
 [submodule "arch/soteria"]
 	path = arch/soteria
 	url = https://github.com/RangHo/soteria-arch
-[submodule "arch/carapace"]
-	path = arch/carapace
-	url = https://aur.archlinux.org/carapace.git
+[submodule "arch/carapace-bin"]
+	path = arch/carapace-bin
+	url = https://aur.archlinux.org/carapace-bin.git
