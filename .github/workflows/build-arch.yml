@@ -205,7 +205,7 @@ jobs:
                 $pkg
           done
 
-      - name: Decode package files
+      - name: Encode package files
         run: |
           cd arch-unsigned
           for f in *; do

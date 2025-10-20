@@ -18,11 +18,11 @@ jobs:
           name: arch
           path: arch
 
-      - name: Rename Arch Linux packages
+      - name: Decode Arch Linux packages
         run: |
           for f in arch/*; do
-            if [ $f != $(echo -n $f | jq -sRr @urid) ]; then
-              mv -v $f $(echo -n $f | jq -sRr @urid)
+            if [ $f != $(printf '%b' ${f//%/\\x}) ]; then
+              mv -v $f $(printf '%b' ${f//%/\\x})
             fi
           done
 
