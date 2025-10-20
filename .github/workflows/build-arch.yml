@@ -40,7 +40,7 @@ jobs:
         run: |
           pacman-key --init
           yes | pacman -Syu
-          yes | pacman -S devtools git
+          yes | pacman -S devtools
           useradd -mG wheel builder
           echo 'Defaults lecture="never"' >> /etc/sudoers
           echo '%wheel ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
@@ -90,7 +90,7 @@ jobs:
           if [ -d keys ]; then
             find keys -type f | xargs gpg --import
           fi
-          MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -s"
+          GOFLAGS="-x" MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -s"
 
       - name: Rename package files
         run: |
