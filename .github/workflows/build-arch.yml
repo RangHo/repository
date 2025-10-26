@@ -64,6 +64,7 @@ jobs:
 
       - name: Build dependent packages
         run: |
+          chown -R builder:builder arch
           declare -A provides_map
           cd arch
           for d in $(find . -mindepth 1 -maxdepth 1 -type d); do
