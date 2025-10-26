@@ -64,6 +64,7 @@ jobs:
 
       - name: Build dependent packages
         run: |
+          chown -R builder:builder arch
           declare -A provides_map
           cd arch
           for d in $(find . -mindepth 1 -maxdepth 1 -type d); do
@@ -77,8 +78,14 @@ jobs:
           source ${{ matrix.package }}/PKGBUILD
           for d in ${depends[@]}; do
             if [[ -v provides_map["$d"] ]]; then
+              if [ -f "${provides_map[$d]}.deps" ]; then
+                yes | pacman -S $(cat "${provides_map[$d]}.deps")
+              fi
               MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -si -D ${provides_map[$d]}"
             elif [ -d "$d" ]; then
+              if [ -f "$d.deps" ]; then
+                yes | pacman -S $(cat "$d.deps")
+              fi
               MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -si -D $d"
             fi
           done
@@ -86,7 +93,11 @@ jobs:
       - name: Build package
         run: |
           chown -R builder:builder arch
-          cd arch/${{ matrix.package }}
+          cd arch
+          if [ -f "${{ matrix.package }}.deps" ]; then
+            yes | pacman -S $(cat "${{ matrix.package }}.deps")
+          fi
+          cd ${{ matrix.package }}
           if [ -d keys ]; then
             find keys -type f | xargs gpg --import
           fi

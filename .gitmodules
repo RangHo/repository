@@ -31,3 +31,12 @@
 [submodule "arch/xp-pen-tablet"]
 	path = arch/xp-pen-tablet
 	url = https://aur.archlinux.org/xp-pen-tablet.git
+[submodule "arch/ndi-sdk"]
+	path = arch/ndi-sdk
+	url = https://aur.archlinux.org/ndi-sdk.git
+[submodule "arch/ffmpeg7.1"]
+	path = arch/ffmpeg7.1
+	url = https://aur.archlinux.org/ffmpeg7.1.git
+[submodule "arch/distroav"]
+	path = arch/distroav
+	url = https://aur.archlinux.org/distroav.git
