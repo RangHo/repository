@@ -93,7 +93,11 @@ jobs:
       - name: Build package
         run: |
           chown -R builder:builder arch
-          cd arch/${{ matrix.package }}
+          cd arch
+          if [ -f "${{ matrix.package }}.deps" ]; then
+            yes | pacman -S $(cat "${{ matrix.package }}.deps")
+          fi
+          cd ${{ matrix.package }}
           if [ -d keys ]; then
             find keys -type f | xargs gpg --import
           fi
