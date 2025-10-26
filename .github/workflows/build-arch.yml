@@ -78,8 +78,14 @@ jobs:
           source ${{ matrix.package }}/PKGBUILD
           for d in ${depends[@]}; do
             if [[ -v provides_map["$d"] ]]; then
+              if [ -f "${provides_map[$d]}.deps" ]; then
+                yes | pacman -S $(cat "${provides_map[$d]}.deps")
+              fi
               MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -si -D ${provides_map[$d]}"
             elif [ -d "$d" ]; then
+              if [ -f "$d.deps" ]; then
+                yes | pacman -S $(cat "$d.deps")
+              fi
               MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -si -D $d"
             fi
           done
