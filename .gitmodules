@@ -28,3 +28,6 @@
 [submodule "arch/carapace-bin"]
 	path = arch/carapace-bin
 	url = https://aur.archlinux.org/carapace-bin.git
+[submodule "arch/xp-pen-tablet"]
+	path = arch/xp-pen-tablet
+	url = https://aur.archlinux.org/xp-pen-tablet.git
