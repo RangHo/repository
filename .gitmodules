@@ -40,3 +40,6 @@
 [submodule "arch/distroav"]
 	path = arch/distroav
 	url = https://aur.archlinux.org/distroav.git
+[submodule "arch/zoom"]
+	path = arch/zoom
+	url = https://aur.archlinux.org/zoom.git
