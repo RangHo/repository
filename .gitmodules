@@ -49,3 +49,6 @@
 [submodule "arch/opentabletdriver"]
 	path = arch/opentabletdriver
 	url = https://aur.archlinux.org/opentabletdriver.git
+[submodule "arch/alvr"]
+	path = arch/alvr
+	url = https://aur.archlinux.org/alvr.git
