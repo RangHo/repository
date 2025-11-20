@@ -52,3 +52,6 @@
 [submodule "arch/alvr"]
 	path = arch/alvr
 	url = https://aur.archlinux.org/alvr.git
+[submodule "arch/oversteer"]
+	path = arch/oversteer
+	url = https://aur.archlinux.org/oversteer.git
