@@ -49,3 +49,6 @@
 [submodule "arch/opentabletdriver"]
 	path = arch/opentabletdriver
 	url = https://aur.archlinux.org/opentabletdriver.git
+[submodule "arch/oversteer"]
+	path = arch/oversteer
+	url = https://aur.archlinux.org/oversteer.git
