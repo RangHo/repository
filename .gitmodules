@@ -43,3 +43,6 @@
 [submodule "arch/zoom"]
 	path = arch/zoom
 	url = https://aur.archlinux.org/zoom.git
+[submodule "arch/zotero"]
+	path = arch/zotero
+	url = https://aur.archlinux.org/zotero.git
