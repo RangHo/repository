@@ -55,3 +55,9 @@
 [submodule "arch/oversteer"]
 	path = arch/oversteer
 	url = https://aur.archlinux.org/oversteer.git
+[submodule "arch/appimagelauncher"]
+	path = arch/appimagelauncher
+	url = https://aur.archlinux.org/appimagelauncher.git
+[submodule "arch/todoist-appimage"]
+	path = arch/todoist-appimage
+	url = https://aur.archlinux.org/todoist-appimage.git
