@@ -61,3 +61,6 @@
 [submodule "arch/todoist-appimage"]
 	path = arch/todoist-appimage
 	url = https://aur.archlinux.org/todoist-appimage.git
+[submodule "arch/argagg"]
+	path = arch/argagg
+	url = https://aur.archlinux.org/argagg.git
