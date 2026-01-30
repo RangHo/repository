@@ -55,3 +55,6 @@
 [submodule "arch/oversteer"]
 	path = arch/oversteer
 	url = https://aur.archlinux.org/oversteer.git
+[submodule "arch/otf-stix"]
+	path = arch/otf-stix
+	url = https://aur.archlinux.org/otf-stix.git
