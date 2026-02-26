@@ -5,7 +5,7 @@ on: workflow_call
 jobs:
   init:
     name: Initialize Void Linux package builds
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     outputs:
       matrix: ${{ steps.find-packages.outputs.matrix }}
 
@@ -27,7 +27,7 @@ jobs:
 
   build:
     name: Build all packages
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     needs:
       - init
     strategy:
@@ -93,7 +93,7 @@ jobs:
 
   register:
     name: Register all packages
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     if: github.ref == 'refs/heads/main'
     needs:
       - build
