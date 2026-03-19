@@ -5,7 +5,7 @@ on: workflow_call
 jobs:
   main:
     name: Depoly to Netlify
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     steps:
       - name: Write repository public key
