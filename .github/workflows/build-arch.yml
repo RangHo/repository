@@ -27,13 +27,13 @@ jobs:
 
   build:
     name: Build all packages
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     needs:
       - init
     strategy:
       matrix: ${{ fromJson(needs.init.outputs.matrix) }}
     container:
-      image: 'ghcr.io/archlinux/archlinux:base-devel'
+      image: 'docker.io/library/archlinux:base-devel'
 
     steps:
       - name: Prepare container
@@ -120,7 +120,7 @@ jobs:
 
   register:
     name: Register all packages
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     needs:
       - build

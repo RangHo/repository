@@ -27,7 +27,7 @@ jobs:
 
   build:
     name: Build all packages
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     needs:
       - init
     strategy:
@@ -93,27 +93,26 @@ jobs:
 
   register:
     name: Register all packages
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     needs:
       - build
-    env:
-      XBPS_ARCH: x86_64
-      XBPS_TARGET_ARCH: x86_64
+    container:
+      image: 'ghcr.io/void-linux/void-buildroot-glibc:latest'
 
     steps:
+      - name: Prepare container
+        run: |
+          xbps-install -Sy
+          xbps-install -yu xbps
+          xbps-install -yu
+          xbps-install -y git tar
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
           pattern: void-*
-
-      - name: Install latest version of xbps
-        run: |
-          curl -L https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz -o xbps.tar.xz
-          tar -xJvf xbps.tar.xz
-          rm xbps.tar.xz
-          echo "$(pwd)/usr/bin" >> $GITHUB_PATH
 
       - name: Copy all packages into repository directory
         run: |
