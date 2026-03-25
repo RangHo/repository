@@ -49,12 +49,12 @@
 [submodule "arch/opentabletdriver"]
 	path = arch/opentabletdriver
 	url = https://aur.archlinux.org/opentabletdriver.git
-[submodule "arch/alvr"]
-	path = arch/alvr
-	url = https://aur.archlinux.org/alvr.git
 [submodule "arch/oversteer"]
 	path = arch/oversteer
 	url = https://aur.archlinux.org/oversteer.git
 [submodule "arch/otf-stix"]
 	path = arch/otf-stix
 	url = https://aur.archlinux.org/otf-stix.git
+[submodule "arch/alvr-bin"]
+	path = arch/alvr-bin
+	url = https://aur.archlinux.org/alvr-bin.git
