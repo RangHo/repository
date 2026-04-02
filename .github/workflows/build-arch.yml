@@ -39,11 +39,13 @@ jobs:
       - name: Prepare container
         run: |
           pacman-key --init
-          yes | pacman -Syu
-          yes | pacman -S devtools
           useradd -mG wheel builder
           echo 'Defaults lecture="never"' >> /etc/sudoers
           echo '%wheel ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
+          echo '[multilib]' >> /etc/pacman.conf
+          echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
+          yes | pacman -Syu
+          yes | pacman -S devtools
 
       - name: Checkout repository
         uses: actions/checkout@v4
