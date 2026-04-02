@@ -58,3 +58,6 @@
 [submodule "arch/soteria-bin"]
 	path = arch/soteria-bin
 	url = https://aur.archlinux.org/soteria-bin.git
+[submodule "arch/kakaotalk"]
+	path = arch/kakaotalk
+	url = https://aur.archlinux.org/kakaotalk.git
