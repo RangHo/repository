@@ -44,8 +44,8 @@ jobs:
           echo '%wheel ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
           echo '[multilib]' >> /etc/pacman.conf
           echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
-          yes | pacman -Syu
-          yes | pacman -S devtools
+          pacman -Syu --noconfirm
+          pacman -S devtools --noconfirm
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -81,14 +81,14 @@ jobs:
           for d in ${depends[@]}; do
             if [[ -v provides_map["$d"] ]]; then
               if [ -f "${provides_map[$d]}.deps" ]; then
-                yes | pacman -S $(cat "${provides_map[$d]}.deps")
+                pacman -S --noconfirm $(cat "${provides_map[$d]}.deps")
               fi
-              MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -si -D ${provides_map[$d]}"
+              MAKEFLAGS="--jobs=$(nproc)" su builder -c "makepkg -si --noconfirm -D ${provides_map[$d]}"
             elif [ -d "$d" ]; then
               if [ -f "$d.deps" ]; then
-                yes | pacman -S $(cat "$d.deps")
+                pacman --noconfirm -S $(cat "$d.deps")
               fi
-              MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -si -D $d"
+              MAKEFLAGS="--jobs=$(nproc)" su builder -c "makepkg -si --noconfirm -D $d"
             fi
           done
 
@@ -97,13 +97,13 @@ jobs:
           chown -R builder:builder arch
           cd arch
           if [ -f "${{ matrix.package }}.deps" ]; then
-            yes | pacman -S $(cat "${{ matrix.package }}.deps")
+            pacman -S --noconfirm $(cat "${{ matrix.package }}.deps")
           fi
           cd ${{ matrix.package }}
           if [ -d keys ]; then
             find keys -type f | xargs gpg --import
           fi
-          MAKEFLAGS="--jobs=$(nproc)" su builder -c "yes | makepkg -s"
+          MAKEFLAGS="--jobs=$(nproc)" su builder -c "makepkg -s --noconfirm"
 
       - name: Rename package files
         run: |
@@ -133,8 +133,8 @@ jobs:
       - name: Prepare container
         run: |
           pacman-key --init
-          yes | pacman -Syu
-          yes | pacman -S devtools
+          pacman -Syu --noconfirm
+          pacman -S devtools --noconfirm
 
       - name: Download all artifacts
         uses: actions/download-artifact@v4
