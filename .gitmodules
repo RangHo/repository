@@ -64,6 +64,6 @@
 [submodule "arch/lib32-gst-plugins-good"]
 	path = arch/lib32-gst-plugins-good
 	url = https://aur.archlinux.org/lib32-gstreamer.git
-[submodule "arch/yay"]
-	path = arch/yay
-	url = https://aur.archlinux.org/yay.git
+[submodule "arch/yay-bin"]
+	path = arch/yay-bin
+	url = https://aur.archlinux.org/yay-bin.git
