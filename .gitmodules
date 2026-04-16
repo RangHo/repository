@@ -61,9 +61,6 @@
 [submodule "arch/kakaotalk"]
 	path = arch/kakaotalk
 	url = https://aur.archlinux.org/kakaotalk.git
-[submodule "arch/lib32-gst-plugins-good"]
-	path = arch/lib32-gst-plugins-good
-	url = https://aur.archlinux.org/lib32-gstreamer.git
 [submodule "arch/yay-bin"]
 	path = arch/yay-bin
 	url = https://aur.archlinux.org/yay-bin.git
