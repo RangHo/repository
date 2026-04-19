@@ -19,5 +19,5 @@ pre_build() {
 }
 
 post_install() {
-	install -Dm644 -T pywalfox/assets/manifest.json "${DESTDIR}/usr/lib/mozilla/native-messaging-hosts/pywalfox.json"
+	vinstall pywalfox/assets/manifest.json 644 usr/lib/mozilla/native-messaging-hosts pywalfox.json
 }
