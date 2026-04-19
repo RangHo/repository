@@ -1,0 +1,13 @@
+diff --git a/setup.py b/setup.py
+index 3c4b427..d4c93b1 100644
+--- a/setup.py
++++ b/setup.py
+@@ -37,7 +37,7 @@ setuptools.setup(
+         "Operating System :: POSIX :: Linux",
+         "Programming Language :: Python :: 3.11",
+     ],
+-    data_files=[('man/man1', ['data/man/man1/wal.1'])],
++    data_files=[('share/man/man1', ['data/man/man1/wal.1'])],
+     packages=["pywal"],
+     entry_points={"console_scripts": ["wal=pywal.__main__:main"]},
+     python_requires=">=3.11",

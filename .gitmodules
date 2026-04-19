@@ -64,3 +64,9 @@
 [submodule "arch/yay-bin"]
 	path = arch/yay-bin
 	url = https://aur.archlinux.org/yay-bin.git
+[submodule "arch/python-pywal16"]
+	path = arch/python-pywal16
+	url = https://aur.archlinux.org/python-pywal16.git
+[submodule "arch/python-pywalfox"]
+	path = arch/python-pywalfox
+	url = https://aur.archlinux.org/python-pywalfox.git
