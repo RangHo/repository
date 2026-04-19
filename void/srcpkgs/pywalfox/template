@@ -1,0 +1,24 @@
+# Template file for 'pywalfox'
+pkgname=pywalfox
+version=2.7.4
+revision=1
+build_style=python3-module
+pycompile_module="pywalfox"
+hostmakedepends="python3-setuptools"
+depends="python"
+short_desc="Native app used alongside the Pywalfox browser extension"
+maintainer="RangHo Lee <hello@rangho.me>"
+license="MPL-2.0"
+homepage="https://github.com/frewacom/pywalfox"
+distfiles="${PYPI_SITE}/p/${pkgname}/${pkgname}-${version}.tar.gz"
+checksum=59e73d7e27389574fb801634e03d8471f09bfe062865cad803f68c456680ed66
+
+pre_build() {
+    local site_packages
+    site_packages=$(python3 -c "import site; print(site.getsitepackages()[0])")
+    sed -i "s:<path>:$site_packages/pywalfox/bin/main.sh:" pywalfox/assets/manifest.json
+}
+
+post_install() {
+  install -Dm644 -T pywalfox/assets/manifest.json "${DESTDIR}/usr/lib/mozilla/native-messaging-hosts/pywalfox.json"
+}
