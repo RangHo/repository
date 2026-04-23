@@ -70,3 +70,9 @@
 [submodule "arch/python-pywalfox"]
 	path = arch/python-pywalfox
 	url = https://aur.archlinux.org/python-pywalfox.git
+[submodule "arch/noctalia-shell"]
+	path = arch/noctalia-shell
+	url = https://aur.archlinux.org/noctalia-shell.git
+[submodule "arch/noctalia-qs"]
+	path = arch/noctalia-qs
+	url = https://aur.archlinux.org/noctalia-qs.git
