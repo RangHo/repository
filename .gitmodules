@@ -76,6 +76,3 @@
 [submodule "arch/noctalia-qs"]
 	path = arch/noctalia-qs
 	url = https://aur.archlinux.org/noctalia-qs.git
-[submodule "arch/vesktop"]
-	path = arch/vesktop
-	url = https://aur.archlinux.org/vesktop.git
