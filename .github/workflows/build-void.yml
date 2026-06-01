@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.init.outputs.matrix) }}
     container:
-      image: 'ghcr.io/void-linux/void-buildroot-glibc:latest'
+      image: 'ghcr.io/void-linux/void-glibc:latest'
 
     steps:
       - name: Prepare container
@@ -41,7 +41,7 @@ jobs:
           xbps-install -Sy
           xbps-install -yu xbps
           xbps-install -yu
-          xbps-install -y git tar
+          xbps-install -y base-devel git tar
 
       - name: Checkout void-packages repository
         uses: actions/checkout@v4
@@ -66,9 +66,9 @@ jobs:
           done
           (
             cd void-packages
+            echo XBPS_ALLOW_CHROOT_BREAKOUT=yes >> etc/conf
             echo XBPS_ALLOW_RESTRICTED=yes >> etc/conf
             echo XBPS_CHROOT_CMD=ethereal >> etc/conf
-            echo XBPS_ALLOW_CHROOT_BREAKOUT=yes >> etc/conf
             echo XBPS_MAKEJOBS="$(nproc)" >> etc/conf
             ln -s / masterdir
           )
@@ -98,7 +98,7 @@ jobs:
     needs:
       - build
     container:
-      image: 'ghcr.io/void-linux/void-buildroot-glibc:latest'
+      image: 'ghcr.io/void-linux/void-glibc:latest'
 
     steps:
       - name: Prepare container
