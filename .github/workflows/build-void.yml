@@ -57,12 +57,11 @@ jobs:
 
       - name: Configure repository
         run: |
-          cat rangho-packages/void/common/shlibs >> void-packages/common/shlibs
-          for pkg in rangho-packages/void/srcpkgs/*; do
-            if [ -e "void-packages/srcpkgs/$(basename $pkg)" ]; then
-              rm -rf "void-packages/srcpkgs/$(basename $pkg)"
+          for pkg in rangho-packages/void/*; do
+            if [ -e "void-packages/$(basename $pkg)" ]; then
+              rm -rf "void-packages/$(basename $pkg)"
             fi
-            cp -r $pkg void-packages/srcpkgs/
+            cp -r $pkg void-packages/
           done
           (
             cd void-packages
