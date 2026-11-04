@@ -1,0 +1,5 @@
+case "${1}" in
+post)
+	GREETER_USER=_greeter /usr/bin/noctalia-greeter-apply-appearance --setup-system
+	;;
+esac

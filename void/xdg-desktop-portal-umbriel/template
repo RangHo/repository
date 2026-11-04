@@ -1,0 +1,21 @@
+# Template file for 'xdg-desktop-portal-umbriel'
+pkgname=xdg-desktop-portal-umbriel
+version=0.0.0
+revision=1
+build_style=meson
+build_helper=qemu
+hostmakedepends="pkg-config wayland-devel"
+makedepends="cairo-devel libdrm-devel pipewire-devel libgbm-devel libei-devel sdbus-c++-devel tomlplusplus-devel json-c++ wayland-protocols"
+depends="xdg-desktop-portal"
+short_desc="Umbriel portal backend for xdg-desktop-portal"
+maintainer="RangHo Lee <hello@rangho.me>"
+license="MIT"
+homepage="https://github.com/noctalia-dev/xdg-desktop-portal-umbriel"
+changelog="https://github.com/noctalia-dev/xdg-desktop-portal-umbriel/releases"
+distfiles="https://github.com/noctalia-dev/xdg-desktop-portal-umbriel/archive/refs/heads/main.tar.gz"
+checksum=af9f825ae1ec57456516056597ffdf69f8de3573fdb508299f69140e9778e707
+
+post_install() {
+	vlicense LICENSE
+	vdoc README.md
+}

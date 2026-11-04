@@ -1,0 +1,23 @@
+# Template file for 'umbriel'
+pkgname=umbriel
+version=0.0.0
+revision=1
+build_style=meson
+build_helper=qemu
+hostmakedepends="pkg-config wayland-devel"
+makedepends="cairo-devel libxkbcommon-devel libinput-devel libei-devel eudev-libudev-devel pixman-devel libdrm-devel libdisplay-info-devel pango-devel tomlplusplus-devel json-c++ libxcb-devel libglvnd-devel jemalloc-devel wayland-protocols wlroots0.20-devel"
+depends="xdg-desktop-portal-umbriel xorg-server-xwayland"
+checkdepends="mesa-dri"
+short_desc="Minimal greetd login greeter with a bundled wlroots compositor"
+maintainer="Haris <plavpxl@proton.me>"
+license="MIT"
+homepage="https://github.com/noctalia-dev/umbriel"
+changelog="https://github.com/noctalia-dev/umbriel/releases"
+distfiles="https://github.com/noctalia-dev/umbriel/archive/refs/heads/main.tar.gz"
+checksum=68296048ae91789be8a25a6a91952a94ebcec8f2e5d6d473cfbf6cacb3a25453
+
+post_install() {
+	vlicense LICENSE
+	vdoc README.md
+	vdoc PACKAGING.md
+}
