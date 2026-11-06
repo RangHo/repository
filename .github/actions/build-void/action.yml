@@ -1,0 +1,20 @@
+name: Build Void Linux package
+description: Build Void Linux package using XBPS
+
+inputs:
+  srcpkgs:
+    description: Path to the target "srcpkgs" directory
+    required: true
+  pkgname:
+    description: Name of the package to build
+    required: true
+outputs:
+  pkgfile:
+    description: File name of the binary package.
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.srcpkgs }}
+    - ${{ inputs.pkgname }}
