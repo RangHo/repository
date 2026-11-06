@@ -1,4 +1,4 @@
-FROM ghcr.io/void-linux/void-glibc:latest
+FROM ghcr.io/void-linux/void-buildroot-glibc:latest
 
 COPY entrypoint.sh /entrypoint.sh
 
