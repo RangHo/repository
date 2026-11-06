@@ -19,12 +19,12 @@ cd void-packages
 
 # Copy all custom srcpkgs.
 for pkg in "${GITHUB_WORKSPACE}/${SRCPKGS}"/*; do
-	name=$(basename "${pkg}")
-	rm -rf "./srcpkgs/${name}"
-	cp -r "${pkg}" "./srcpkgs/${name}"
+    name=$(basename "${pkg}")
+    rm -rf "./srcpkgs/${name}"
+    cp -r "${pkg}" "./srcpkgs/${name}"
     if [ -f "${pkg}/shlib" ]; then
-		cat "${pkg}/shlib" >> common/shlibs
-	fi
+        cat "${pkg}/shlib" >> common/shlibs
+    fi
 done
 
 # Configure xbps-src.
